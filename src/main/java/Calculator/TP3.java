@@ -1,0 +1,1665 @@
+package Calculator;
+
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.border.*;
+
+/**
+ * Classe implémentant l'interface IMatrix qui effectue des opérations sur une
+ * Matrix implémentée avec une liste chainée.
+ *
+ * @author Thomas Castonguay-Gagnon
+ * @author Arnaud Dupré
+ * @author CAST10059303
+ * @author DUPA10029407
+ * @version 1.0
+ */
+public class TP3 extends WindowAdapter implements ActionListener {
+
+    /**
+     * **********************************
+     * CONSTANTES DE CLASSE
+	 ***********************************
+     */
+    //width et hight de l'ecran de l'ordinateur
+    public final static int LARGE_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().width;
+    public final static int HIGH_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().height;
+    //width et hight de la window principale
+    public final static int LARGE_WINDOW = 1000;
+    public final static int HIGH_WINDOW = 630;
+
+    //fichier d'enregistrement des Matrices (à la racine du projet)
+    public final static String FIC_Matrices = "Matrices.txt";
+
+    //titre de la fenêtre principale
+    public final static String TITLE_WINDOW = "Matrix Calculator";
+
+    // Instructions
+    private final static String INSTRUCTIONS = "Create a new Matrix by clicking on the [New] button below or choose an existing Matrix from the drop-down list above.";
+
+    /**
+     * **********************************
+     * VARIABLES D'INSTANCE
+	 ***********************************
+     */
+    //Liste de Matrices + nom
+    private ArrayList<Object> Matrices;
+    private String nameMatrixZone1;
+    private Matrix MatrixZone1;
+    private String nameMatrixZone2;
+    private Matrix MatrixZone2;
+    private String nameMatrixZone4;
+    private Matrix MatrixZone4;
+
+    private int nColZone1;
+    private int nColZone2;
+    private int nLinesZone1;
+    private int nLinesZone2;
+
+    /**
+     * **********************************
+     * COMPOSANTS GRAPHIQUES
+	 ***********************************
+     */
+    //Window principale
+    private JFrame window;
+    //Contenu de la window
+    private Container contentsWindow;
+    //Zone Matrix de gauche
+    private JPanel zone1;
+    //Zone Matrix de groite
+    private JPanel zone2;
+    //Zone de calcul entre 2 Matrices
+    private JPanel zone3;
+    //Zone de résultat de l'opération entre 2 Matrices
+    private JPanel zone4;
+    //Panneau de buttons Zone1
+    private JPanel panel1ButtonsZone1;
+    private JPanel panel2ButtonsZone1;
+    //Panneau de buttons Zone2
+    private JPanel panel1ButtonsZone2;
+    private JPanel panel2ButtonsZone2;
+    //Sélection de Matrix de gauche
+    private JPanel selectorZone1;
+    //Sélection de Matrix de droite
+    private JPanel selectorZone2;
+    //Selecteur de Matrix de gauche
+    private JComboBox selectMatrixZone1;
+    //Selecteur de Matrix de droite
+    private JComboBox selectMatrixZone2;
+
+    // Composants graphiques
+    private JButton deleteZone1;
+    private JButton deleteZone2;
+    private JButton addition;
+    private JButton multiplication;
+    private JButton[] buttonsTabZone1;
+    private JButton[] buttonsTabZone2;
+    private JLabel multLabelZone1;
+    private JLabel multLabelZone2;
+    private JTextField multScalarZone1;
+    private JTextField multScalarZone2;
+    private JTextArea instructionsZone1;
+    private JTextArea instructionsZone2;
+
+    private JPanel panelMatrixZone1;
+    private JPanel panelMatrixZone2;
+    private JTextField[][] fieldsMatrixZone1;
+    private JTextField[][] fieldsMatrixZone2;
+
+    private JPanel resultZone4;
+    private JTextArea nameZone4;
+    private JTextArea MatrixAffZone4;
+    private JScrollPane scrollPane;
+    private JButton saveZone4;
+
+    // État de la Matrix en mode édition
+    private boolean saveZone1;
+    private boolean saveZone2;
+    private boolean opZone1;
+    private boolean opZone2;
+
+    /**
+     * ***************************************************************
+     * New Matrix
+	 ****************************************************************
+     */
+    // Zone 1
+    private JLabel newMatrixLabelLinesZone1;
+    private JComboBox newMatrixBoxLinesZone1;
+    private JLabel newMatrixLabelColumnsZone1;
+    private JComboBox newMatrixBoxColumnsZone1;
+    private JPanel newMatrixPanelZone1;
+    private JPanel newMatrixUnderPanelZone1;
+    private JButton newMatrixButtonZone1;
+
+    // Zone 2
+    private JLabel newMatrixLabelLinesZone2;
+    private JComboBox newMatrixBoxLinesZone2;
+    private JLabel newMatrixLabelColumnsZone2;
+    private JComboBox newMatrixBoxColumnsZone2;
+    private JPanel newMatrixPanelZone2;
+    private JPanel newMatrixUnderPanelZone2;
+    private JButton newMatrixButtonZone2;
+
+    /**
+     * Constructeur qui initialise l'application.
+     */
+    public TP3() {
+        init();
+    }
+
+    /**
+     * Initialisation des composants graphiques.
+     */
+    private void init() {
+        fileScanner();
+        //FENETRE JFRAME
+        window = new JFrame(TITLE_WINDOW);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+        window.setLayout(null);
+        //centrer la window principale dans l'écran
+        window.setBounds(LARGE_SCREEN / 2 - LARGE_WINDOW / 2, HIGH_SCREEN / 2 - HIGH_WINDOW / 2, LARGE_WINDOW, HIGH_WINDOW);
+
+        contentsWindow = window.getContentPane();
+
+        /*
+		 * Initialisation des zones
+         */
+        zone1 = zone(0, 0, 460, 375);
+        zone3 = zone(460, 0, 80, 375);
+        zone2 = zone(540, 0, 460, 375);
+        zone4 = zone(0, 375, 1000, 255);
+
+        /*
+		 * Initialisation des buttons.
+         */
+        initButtonsZone1();
+        initButtonsZone2();
+        initSelectionZone1();
+        initSelectionZone2();
+        initInstructionsZone1();
+        initInstructionsZone2();
+        addition = button("+", 15, 130, 50, 25);
+        addition.setEnabled(false);
+        addition.addActionListener(this);
+        multiplication = button("X", 15, 180, 50, 25);
+        multiplication.setEnabled(false);
+        multiplication.addActionListener(this);
+
+        /*
+		 * Ajout des composants dans zone1
+         */
+        zone1.add(selectorZone1);
+        zone1.add(panel1ButtonsZone1);
+        zone1.add(panel2ButtonsZone1);
+
+        /*
+		 * Ajout des composants dans la zone2
+         */
+        zone2.add(selectorZone2);
+        zone2.add(panel1ButtonsZone2);
+        zone2.add(panel2ButtonsZone2);
+
+        /*
+		 * Ajout des composants dans la zone3
+         */
+        zone3.add(addition);
+        zone3.add(multiplication);
+
+        initZone4();
+
+        /*
+		 * Ajout des zones à la fenètre
+         */
+        contentsWindow.add(zone1);
+        contentsWindow.add(zone3);
+        contentsWindow.add(zone2);
+        contentsWindow.add(zone4);
+
+        //Laisser cette instruction à la fin de l'initialisation des composants
+        //graphiques.
+        window.setVisible(true);
+
+        /**
+         * ***********************
+         * ÉCOUTEURS
+		 ************************
+         */
+        //add d'un ecouteur sur la window
+        window.addWindowListener(this); //voir redef methode windowClosing
+
+    }
+
+    /**
+     * Action listener
+     */
+    public void actionPerformed(ActionEvent e) {
+        Object event = e.getSource();
+        /*For testing now */
+        if (event == buttonsTabZone1[0]) {
+            initNewMatrixZone1();
+        } else if (event == buttonsTabZone1[1] && saveZone1) {
+            saveZone1();
+        } else if (event == buttonsTabZone1[1]) {
+            editionZone1();
+        } else if (event == buttonsTabZone2[0]) {
+            initNewMatrixZone2();
+        } else if (event == buttonsTabZone2[1] && saveZone2) {
+            saveZone2();
+        } else if (event == buttonsTabZone2[1]) {
+            editionZone2();
+        } else if (event == selectMatrixZone1) {
+            selectMatrixZone1();
+        } else if (event == selectMatrixZone2) {
+            selectMatrixZone2();
+        } else if (event == deleteZone1) {
+            deleteMatrixZone1();
+        } else if (event == deleteZone2) {
+            deleteMatrixZone2();
+        } else if (event == newMatrixButtonZone1) {
+            creerNewMatrixZone1();
+        } else if (event == newMatrixButtonZone2) {
+            creerNewMatrixZone2();
+        } else if (event == buttonsTabZone1[2]) {
+            addLineZone1();
+        } else if (event == buttonsTabZone2[2]) {
+            addLineZone2();
+        } else if (event == buttonsTabZone1[3]) {
+            addColumnZone1();
+        } else if (event == buttonsTabZone2[3]) {
+            addColumnZone2();
+        } else if (event == buttonsTabZone1[4]) {
+            suppLineZone1();
+        } else if (event == buttonsTabZone2[4]) {
+            suppLineZone2();
+        } else if (event == buttonsTabZone1[5]) {
+            suppColumnZone1();
+        } else if (event == buttonsTabZone2[5]) {
+            suppColumnZone2();
+        } else if (event == multScalarZone1) {
+            multValueZone1();
+        } else if (event == multScalarZone2) {
+            multValueZone2();
+        } else if (event == buttonsTabZone1[6]) {
+            transposeZone1();
+        } else if (event == buttonsTabZone2[6]) {
+            transposeZone2();
+        } else if (event == addition) {
+            addMatrix();
+        } else if (event == multiplication) {
+            multMatrix();
+        } else if (event == saveZone4) {
+            saveZone4();
+        }
+    }
+
+    /**
+     * A la fermeture de la window, enregistrement des toutes les Matrices dans
+     * le fichier FIC_Matrices.
+     *
+     * @param e l'evenement de fermeture de window.
+     */
+    @Override
+    public void windowClosing(WindowEvent e) {
+        try {
+            FileWriter fw = new FileWriter(FIC_Matrices);
+            BufferedWriter br = new BufferedWriter(fw);
+            String line = "";
+            Matrix Matrix;
+            for (int d = 0; d < Matrices.size(); d = d + 2) {
+                line += Matrices.get(d);
+                line += ":";
+                Matrix = (Matrix) Matrices.get(d + 1);
+                line += Matrix.getNumLines();
+                line += ";";
+                line += Matrix.getNumColumns();
+                line += ";";
+                for (int i = 0; i < Matrix.getNumLines(); i++) {
+                    for (int j = 0; j < Matrix.getNumColumns(); j++) {
+                        line += Matrix.getElement(i, j);
+                        line += ";";
+                    }
+                }
+                br.write(line);
+                line = "";
+                br.newLine();
+            }
+            br.close();
+            fw.close();
+        } catch (IOException e1) {
+        }
+    }
+
+    public static void main(String[] args) {
+        new TP3();
+    }
+
+    /**
+     * Lecture du fichier texte Matrix.txt
+     */
+    private void fileScanner() {
+        try {
+            FileReader fr = new FileReader(FIC_Matrices);
+            BufferedReader br = new BufferedReader(fr);
+            Matrices = new ArrayList<>();
+            String readLine;
+            while (br.ready()) {
+                readLine = br.readLine();
+                treatLine(readLine);
+            }
+            br.close();
+            fr.close();
+        } catch (FileNotFoundException e) {
+            Matrices = new ArrayList<>();
+            // A delete
+            System.out.println("FNF Error");
+        } catch (IOException e) {
+            System.out.println("IO ERROR");
+        }
+
+    }
+
+    /**
+     * Method which processes the line read from the text file. The method adds
+     * the name of the Matrix in an even position in the Arraylist Matrices. The
+     * Matrix object is added in odd position.
+     *
+     * @param readLine in the text file
+     */
+    private void treatLine(String readLine) {
+        String name = "";
+        double[] values = null;
+        int nbCol = -1;
+        int nbLines = -1;
+        Matrix Matrix;
+        String[] bufferName = readLine.split(":");
+        name = bufferName[0];
+        String[] buffer = bufferName[1].split(";");
+        values = new double[buffer.length - 2];
+        for (int i = 0; i < buffer.length; i++) {
+            if (i == 0) {
+                nbLines = Integer.parseInt(buffer[i]);
+            } else if (i == 1) {
+                nbCol = Integer.parseInt(buffer[i]);
+            } else {
+                values[i - 2] = Double.parseDouble(buffer[i]);
+            }
+        }
+        Matrix = new Matrix(nbLines, nbCol, values);
+        Matrices.add(name);
+        Matrices.add(Matrix);
+    }
+
+    /**
+     * Crontruit un panel avec layout null et les positions et dimentions
+     * écrites
+     *
+     * @param x position du panel en X
+     * @param y position du panel en Y
+     * @param width Largeur du panel
+     * @param hight Hauteur du panel
+     * @return un JPanel selon les tailles et la position en paramètre.
+     */
+    private JPanel zone(int x, int y, int width, int hight) {
+        JPanel panel = new JPanel(null);
+        panel.setSize(width, hight);
+        panel.setLocation(x, y);
+        return panel;
+    }
+
+    /**
+     * Crée un button avec le label donné.
+     *
+     * @param name Label du button
+     * @param x Position en x du button
+     * @param y Position en y du button
+     * @param width Largeur du button
+     * @param hight Hauteur du button
+     * @return Un JButton avec les paramètres donnés.
+     */
+    private JButton button(String name, int x, int y, int width, int hight) {
+        JButton button = new JButton(name);
+        button.setSize(width, hight);
+        button.setLocation(x, y);
+        return button;
+    }
+
+    /**
+     * Initialise les bouttons de la zone 1
+     */
+    private void initButtonsZone1() {
+        // Panel des buttons
+        panel1ButtonsZone1 = zone(0, 300, 460, 40);
+        panel2ButtonsZone1 = zone(0, 335, 460, 40);
+        panel1ButtonsZone1.setLayout(new FlowLayout());
+        panel2ButtonsZone1.setLayout(new FlowLayout());
+
+        // Tableau de buttons
+        buttonsTabZone1 = new JButton[7];
+
+        // Bouton newelle Matrix
+        buttonsTabZone1[0] = new JButton("New");
+        panel1ButtonsZone1.add(buttonsTabZone1[0]);
+
+        // Bouton mode édition / save
+        buttonsTabZone1[1] = new JButton("Edit");
+        buttonsTabZone1[1].setEnabled(false);
+        panel1ButtonsZone1.add(buttonsTabZone1[1]);
+
+        // Mode edition, add une line
+        buttonsTabZone1[2] = new JButton("+ Line");
+        buttonsTabZone1[2].setEnabled(false);
+
+        // Mode edition, add une column
+        panel1ButtonsZone1.add(buttonsTabZone1[2]);
+        buttonsTabZone1[3] = new JButton("+ Column");
+        buttonsTabZone1[3].setEnabled(false);
+        panel1ButtonsZone1.add(buttonsTabZone1[3]);
+
+        // Mode edition, delete une line
+        buttonsTabZone1[4] = new JButton("- Line");
+        buttonsTabZone1[4].setEnabled(false);
+        panel2ButtonsZone1.add(buttonsTabZone1[4]);
+
+        // Mode edition, delete une column
+        buttonsTabZone1[5] = new JButton("- Column");
+        buttonsTabZone1[5].setEnabled(false);
+        panel2ButtonsZone1.add(buttonsTabZone1[5]);
+
+        // Mode opération, tansposée de la Matrix
+        buttonsTabZone1[6] = new JButton("Transpose");
+        buttonsTabZone1[6].setEnabled(false);
+        panel2ButtonsZone1.add(buttonsTabZone1[6]);
+
+        // Mode opération, multiplication par un scalar.
+        multLabelZone1 = new JLabel("Mult. through");
+        multLabelZone1.setEnabled(false);
+        panel2ButtonsZone1.add(multLabelZone1);
+        multScalarZone1 = new JTextField(4);
+        multScalarZone1.setEnabled(false);
+        panel2ButtonsZone1.add(multScalarZone1);
+
+        // Action listener
+        multScalarZone1.addActionListener(this);
+        for (int i = 0; i < buttonsTabZone1.length; i++) {
+            buttonsTabZone1[i].addActionListener(this);
+        }
+    }
+
+    /**
+     * Initialise les bouttons de la zone 3
+     */
+    private void initButtonsZone2() {
+        // Panel des buttons
+        panel1ButtonsZone2 = zone(0, 300, 460, 40);
+        panel2ButtonsZone2 = zone(0, 335, 460, 40);
+        panel1ButtonsZone2.setLayout(new FlowLayout());
+        panel2ButtonsZone2.setLayout(new FlowLayout());
+
+        // Tableau de buttons
+        buttonsTabZone2 = new JButton[7];
+
+        // Bouton newelle Matrix
+        buttonsTabZone2[0] = new JButton("New");
+        panel1ButtonsZone2.add(buttonsTabZone2[0]);
+
+        // Bouton mode édition / save
+        buttonsTabZone2[1] = new JButton("Edit");
+        buttonsTabZone2[1].setEnabled(false);
+        panel1ButtonsZone2.add(buttonsTabZone2[1]);
+
+        // Mode edition, add une line
+        buttonsTabZone2[2] = new JButton("+ Line");
+        buttonsTabZone2[2].setEnabled(false);
+        panel1ButtonsZone2.add(buttonsTabZone2[2]);
+
+        // Mode edition, add une column
+        buttonsTabZone2[3] = new JButton("+ Column");
+        buttonsTabZone2[3].setEnabled(false);
+        panel1ButtonsZone2.add(buttonsTabZone2[3]);
+
+        // Mode edition, delete une line
+        buttonsTabZone2[4] = new JButton("- Line");
+        buttonsTabZone2[4].setEnabled(false);
+        panel2ButtonsZone2.add(buttonsTabZone2[4]);
+
+        // Mode edition, delete column
+        buttonsTabZone2[5] = new JButton("- Column");
+        buttonsTabZone2[5].setEnabled(false);
+        panel2ButtonsZone2.add(buttonsTabZone2[5]);
+
+        // Mode opération, transposée
+        buttonsTabZone2[6] = new JButton("Transpose");
+        buttonsTabZone2[6].setEnabled(false);
+        panel2ButtonsZone2.add(buttonsTabZone2[6]);
+
+        // Mode opération, multiplication par un scalar
+        multLabelZone2 = new JLabel("Mult. through");
+        multLabelZone2.setEnabled(false);
+        panel2ButtonsZone2.add(multLabelZone2);
+        multScalarZone2 = new JTextField(4);
+        multScalarZone2.setEnabled(false);
+        panel2ButtonsZone2.add(multScalarZone2);
+
+        // Action listener
+        multScalarZone2.addActionListener(this);
+        for (int i = 0; i < buttonsTabZone1.length; i++) {
+            buttonsTabZone2[i].addActionListener(this);
+        }
+    }
+
+    /**
+     * Initialise le sélecteur de Matrix dans la zone1 selon les Matrices
+     * présentes dans l'arraylist
+     */
+    private void initMatrixSelectZone1() {
+        selectMatrixZone1 = new JComboBox();
+        selectMatrixZone1.setLocation(135, 12);
+        selectMatrixZone1.setSize(100, 25);
+        selectMatrixZone1.addItem("");
+        selectMatrixZone1.setSelectedItem("");
+        for (int i = 0; i < Matrices.size(); i++) {
+            if (i % 2 == 0) {
+                selectMatrixZone1.addItem(Matrices.get(i));
+            }
+        }
+        selectMatrixZone1.addActionListener(this);
+    }
+
+    private void refreshSelectorALL() {
+        selectorZone1.setVisible(false);
+        selectorZone2.setVisible(false);
+        initSelectionZone1();
+        initSelectionZone2();
+        zone1.add(selectorZone1);
+        zone2.add(selectorZone2);
+        window.revalidate();
+    }
+
+    /**
+     * Initialise la sélection de la Matrix dans la zone1. Bouton delete +
+     * Sélecteur
+     */
+    private void initSelectionZone1() {
+        selectorZone1 = zone(0, 0, 460, 49);
+        deleteZone1 = button("Delete", 250, 12, 95, 25);
+        deleteZone1.setEnabled(false);
+        deleteZone1.addActionListener(this);
+        initMatrixSelectZone1();
+        selectorZone1.add(deleteZone1);
+        selectorZone1.add(selectMatrixZone1);
+        selectorZone1.revalidate();
+        zone1.revalidate();
+    }
+
+    /**
+     * Initialise le sélecteur de Matrix dans la zone2 selon les Matrices
+     * présentes dans l'arraylist
+     */
+    private void initMatrixSelectZone2() {
+        selectMatrixZone2 = new JComboBox();
+        selectMatrixZone2.setLocation(135, 12);
+        selectMatrixZone2.setSize(100, 25);
+        selectMatrixZone2.addItem("");
+        selectMatrixZone2.setSelectedItem("");
+        for (int i = 0; i < Matrices.size(); i++) {
+            if (i % 2 == 0) {
+                selectMatrixZone2.addItem(Matrices.get(i));
+            }
+        }
+        selectMatrixZone2.addActionListener(this);
+    }
+
+    /**
+     * Initialise la sélection de la Matrix dans la zone2. Boutton delete +
+     * sélecteur
+     */
+    private void initSelectionZone2() {
+        selectorZone2 = zone(0, 0, 460, 49);
+        deleteZone2 = button("Delete", 250, 12, 95, 25);
+        deleteZone2.setEnabled(false);
+        deleteZone2.addActionListener(this);
+        initMatrixSelectZone2();
+        selectorZone2.add(deleteZone2);
+        selectorZone2.add(selectMatrixZone2);
+        selectorZone2.revalidate();
+        zone2.revalidate();
+    }
+
+    /**
+     * Initialise les instructions de la Zone1
+     */
+    private void initInstructionsZone1() {
+        instructionsZone1 = new JTextArea();
+        instructionsZone1.setText(INSTRUCTIONS);
+        instructionsZone1.setEditable(false);
+        instructionsZone1.setLineWrap(true);
+        instructionsZone1.setWrapStyleWord(true);
+        Border border = BorderFactory.createEmptyBorder(5, 25, 5, 25);
+        instructionsZone1.setBorder(border);
+        instructionsZone1.setBounds(80, 125, 300, 80);
+        zone1.add(instructionsZone1);
+        zone1.revalidate();
+    }
+
+    /**
+     * Initialise les instructions de la zone2
+     */
+    private void initInstructionsZone2() {
+        instructionsZone2 = new JTextArea();
+        instructionsZone2.setText(INSTRUCTIONS);
+        instructionsZone2.setEditable(false);
+        instructionsZone2.setLineWrap(true);
+        instructionsZone2.setWrapStyleWord(true);
+        Border border = BorderFactory.createEmptyBorder(5, 25, 5, 25);
+        instructionsZone2.setBorder(border);
+        instructionsZone2.setBounds(80, 125, 300, 80);
+        zone2.add(instructionsZone2);
+        zone2.revalidate();
+    }
+
+    /**
+     * *******************************************************************************
+     * Matrix 1
+	 ********************************************************************************
+     */
+    /**
+     * Intialise la représentation graphique de la Matrix dans la zone 1
+     */
+    private void initMatrixZone1() {
+        if (panelMatrixZone1 != null) {
+            resetMatrixZone1();
+        }
+        int width = 55 * nColZone1;
+        int hight = 30 * nLinesZone1;
+        int positionX = 5 + ((440 - width) / 2);
+        int positionY = 50 + ((240 - hight) / 2);
+        panelMatrixZone1 = new JPanel(new GridLayout(nLinesZone1, nColZone1, 5, 5));
+        panelMatrixZone1.setBounds(positionX, positionY, width, hight);
+        panelMatrixZone1.setVisible(true);
+        fieldsMatrixZone1(nColZone1, nLinesZone1);
+        panelMatrixZone1.repaint();
+        zone1.repaint();
+    }
+
+    /**
+     * Initialise les champs de la Matrix avec les values de celle-ci
+     */
+    private void fieldsMatrixZone1(int nCol, int nLines) {
+        fieldsMatrixZone1 = new JTextField[nLines][nCol];
+        for (int i = 0; i < nLines; i++) {
+            for (int j = 0; j < nCol; j++) {
+                fieldsMatrixZone1[i][j] = new JTextField("" + MatrixZone1.getElement(i, j));
+                fieldsMatrixZone1[i][j].setEditable(false);
+                fieldsMatrixZone1[i][j].setBackground(Color.white);
+                panelMatrixZone1.add(fieldsMatrixZone1[i][j]);
+
+            }
+        }
+    }
+
+    /**
+     * *******************************************************************************
+     * Matrix 2
+	 ********************************************************************************
+     */
+    /**
+     * Intialise la représentation graphique de la Matrix dans la zone 1
+     */
+    private void initMatrixZone2() {
+        if (panelMatrixZone2 != null) {
+            resetMatrixZone2();
+        }
+        int width = 55 * nColZone2;
+        int hight = 30 * nLinesZone2;
+        int positionX = 5 + ((440 - width) / 2);
+        int positionY = 50 + ((240 - hight) / 2);
+        panelMatrixZone2 = new JPanel(new GridLayout(nLinesZone2, nColZone2, 5, 5));
+        panelMatrixZone2.setBounds(positionX, positionY, width, hight);
+        fieldsMatrixZone2(nColZone2, nLinesZone2);
+        panelMatrixZone2.revalidate();
+        zone2.revalidate();
+    }
+
+    /**
+     * Initialise les champs de la Matrix avec les values de celle-ci
+     */
+    private void fieldsMatrixZone2(int nCol, int nLines) {
+        fieldsMatrixZone2 = new JTextField[nLines][nCol];
+        for (int i = 0; i < nLines; i++) {
+            for (int j = 0; j < nCol; j++) {
+                fieldsMatrixZone2[i][j] = new JTextField("" + MatrixZone2.getElement(i, j));
+                fieldsMatrixZone2[i][j].setEditable(false);
+                fieldsMatrixZone2[i][j].setBackground(Color.white);
+                panelMatrixZone2.add(fieldsMatrixZone2[i][j]);
+            }
+        }
+    }
+
+    /**
+     * *******************************************************************************
+     * Actions
+	 ********************************************************************************
+     */
+    /**
+     * Action lorsqu'une Matrix est selectionnée en zone1
+     */
+    private void selectMatrixZone1() {
+        if (newMatrixUnderPanelZone1 != null) {
+            resetNewMatrixZone1();
+        }
+        String select = (String) selectMatrixZone1.getSelectedItem();
+        if (select.equals("")) {
+            instructionsZone1.setVisible(false);
+            MatrixZone1 = null;
+            nameMatrixZone1 = null;
+            deleteZone1.setEnabled(false);
+            resetMatrixZone1();
+            initInstructionsZone1();
+            resetOperationZone1();
+            resetEditionZone1();
+        } else {
+            for (int i = 0; i < Matrices.size(); i++) {
+                if (select.equals(Matrices.get(i))) {
+                    nameMatrixZone1 = (String) Matrices.get(i);
+                    MatrixZone1 = (Matrix) Matrices.get(i + 1);
+                    nColZone1 = MatrixZone1.getNumColumns();
+                    nLinesZone1 = MatrixZone1.getNumLines();
+                    deleteZone1.setEnabled(true);
+                    operationZone1();
+                }
+            }
+        }
+    }
+
+    /**
+     * Action lorsqu'une Matrix est selectionnée en zone2
+     */
+    private void selectMatrixZone2() {
+        if (newMatrixUnderPanelZone2 != null) {
+            resetNewMatrixZone2();
+        }
+        String select = (String) selectMatrixZone2.getSelectedItem();
+        if (select.equals("")) {
+            instructionsZone2.setVisible(false);
+            MatrixZone2 = null;
+            nameMatrixZone2 = null;
+            deleteZone2.setEnabled(false);
+            resetMatrixZone2();
+            initInstructionsZone2();
+            resetOperationZone2();
+            resetEditionZone2();
+        } else {
+            for (int i = 0; i < Matrices.size(); i++) {
+                if (select.equals(Matrices.get(i))) {
+                    MatrixZone2 = (Matrix) Matrices.get(i + 1);
+                    nameMatrixZone2 = (String) Matrices.get(i);
+                    nColZone2 = MatrixZone2.getNumColumns();
+                    nLinesZone2 = MatrixZone2.getNumLines();
+                    deleteZone2.setEnabled(true);
+                    operationZone2();
+                }
+            }
+        }
+    }
+
+    /**
+     * Une fois la Matrix selectionnée en zone1, la zone entre en mode opération
+     */
+    private void operationZone1() {
+        resetMatrixZone1();
+        resetEditionZone1();
+        buttonsTabZone1[1].setEnabled(true);
+        multLabelZone1.setEnabled(true);
+        multScalarZone1.setBackground(Color.yellow);
+        multScalarZone1.setEnabled(true);
+        buttonsTabZone1[6].setEnabled(true);
+        instructionsZone1.setVisible(false);
+        initMatrixZone1();
+        zone1.add(panelMatrixZone1);
+        window.revalidate();
+        window.repaint();
+        opZone1 = true;
+        if (opZone1 && opZone2) {
+            addition.setEnabled(true);
+            multiplication.setEnabled(true);
+        }
+    }
+
+    private void resetOperationZone1() {
+        buttonsTabZone1[1].setEnabled(false);
+        multLabelZone1.setEnabled(false);
+        multScalarZone1.setBackground(Color.white);
+        multScalarZone1.setEnabled(false);
+        buttonsTabZone1[6].setEnabled(false);
+        opZone1 = false;
+        addition.setEnabled(false);
+        multiplication.setEnabled(false);
+    }
+
+    /**
+     * Une fois la Matrix selectionnée en zone2, la zone entre en mode opération
+     */
+    private void operationZone2() {
+        resetMatrixZone2();
+        resetEditionZone2();
+        buttonsTabZone2[1].setEnabled(true);
+        multLabelZone2.setEnabled(true);
+        multScalarZone2.setBackground(Color.yellow);
+        multScalarZone2.setEnabled(true);
+        buttonsTabZone2[6].setEnabled(true);
+        instructionsZone2.setVisible(false);
+        initMatrixZone2();
+        zone2.add(panelMatrixZone2);
+        zone2.repaint();
+        opZone2 = true;
+        if (opZone1 && opZone2) {
+            addition.setEnabled(true);
+            multiplication.setEnabled(true);
+        }
+    }
+
+    private void resetOperationZone2() {
+        buttonsTabZone2[1].setEnabled(false);
+        multLabelZone2.setEnabled(false);
+        multScalarZone2.setBackground(Color.white);
+        multScalarZone2.setEnabled(false);
+        buttonsTabZone2[6].setEnabled(false);
+        opZone2 = false;
+        addition.setEnabled(false);
+        multiplication.setEnabled(false);
+    }
+
+    /**
+     * Mode d'édition de la zone1, permet d'effectuer des modifications sur la
+     * Matrix en zone1
+     */
+    private void editionZone1() {
+        resetOperationZone1();
+        buttonsTabZone1[1].setText("Save");
+        for (int i = 1; i < 6; i++) {
+            buttonsTabZone1[i].setEnabled(true);
+        }
+        saveZone1 = true;
+        for (int i = 0; i < nLinesZone1; i++) {
+            for (int j = 0; j < nColZone1; j++) {
+                fieldsMatrixZone1[i][j].setBackground(Color.yellow);
+                fieldsMatrixZone1[i][j].setEditable(true);
+            }
+        }
+    }
+
+    private void resetEditionZone1() {
+        buttonsTabZone1[1].setText("Edit");
+        for (int i = 2; i < 6; i++) {
+            buttonsTabZone1[i].setEnabled(false);
+        }
+        saveZone1 = false;
+
+    }
+
+    /**
+     * Lorsque le button save de la zone1 est appuyé, sauvegarde les
+     * modifications effectuées dans la Matrix. La zone retourne en mode
+     * opération
+     */
+    private void saveZone1() {
+        try {
+            String buffer;
+            String name;
+            double[] elements = new double[nLinesZone1 * nColZone1];
+            for (int i = 0; i < nLinesZone1; i++) {
+                for (int j = 0; j < nColZone1; j++) {
+                    buffer = fieldsMatrixZone1[i][j].getText();
+                    elements[i * nColZone1 + j] = Double.parseDouble(buffer);
+                }
+            }
+            Matrix save = new Matrix(nLinesZone1, nColZone1, elements);
+            do {
+                name = JOptionPane.showInputDialog("Name Matrix :");
+                if (name == null) {
+                    throw new MatrixException();
+                }
+                if (Matrices.contains(name)) {
+                    JOptionPane.showMessageDialog(null, "Name of existing matrix", "Error", JOptionPane.ERROR_MESSAGE);
+                    name = null;
+                } else if (name.length() > 5 || name.isEmpty()) {
+                    JOptionPane.showMessageDialog(window, "The name of the Matrix must contain between 1 and 5 characters!", "Error", JOptionPane.ERROR_MESSAGE);
+                    name = null;
+                }
+            } while (name == null);
+
+            Matrices.add(name);
+            Matrices.add(save);
+
+            refreshSelectorALL();
+
+            if (nameMatrixZone2 != null && opZone2) {
+                selectMatrixZone2.setSelectedItem(nameMatrixZone2);
+            }
+            selectMatrixZone1.setSelectedItem(name);
+
+            MatrixZone1 = save;
+            nColZone1 = save.getNumColumns();
+            nLinesZone1 = save.getNumLines();
+
+            buttonsTabZone1[1].setText("Edit");
+            for (int i = 1; i < 6; i++) {
+                buttonsTabZone1[i].setEnabled(false);
+            }
+            saveZone1 = false;
+            operationZone1();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "One or more fields are invalid", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (MatrixException e) {
+
+        }
+    }
+
+    /**
+     * Mode d'édition de la zone2, permet d'effectuer des modifications sur la
+     * Matrix en zone2
+     */
+    private void editionZone2() {
+        resetOperationZone2();
+        buttonsTabZone2[1].setText("Save");
+        for (int i = 1; i < 6; i++) {
+            buttonsTabZone2[i].setEnabled(true);
+        }
+        saveZone2 = true;
+        for (int i = 0; i < nLinesZone2; i++) {
+            for (int j = 0; j < nColZone2; j++) {
+                fieldsMatrixZone2[i][j].setBackground(Color.yellow);
+                fieldsMatrixZone2[i][j].setEditable(true);
+            }
+        }
+    }
+
+    private void resetEditionZone2() {
+        buttonsTabZone2[1].setText("Edit");
+        for (int i = 2; i < 6; i++) {
+            buttonsTabZone2[i].setEnabled(false);
+        }
+        saveZone2 = false;
+    }
+
+    /**
+     * Lorsque le button save de la zone2 est appuyé, sauvegarde les
+     * modifications effectuées dans la Matrix. La zone retourne en mode
+     * opération
+     */
+    private void saveZone2() {
+        try {
+            String buffer;
+            String name;
+            double[] elements = new double[nLinesZone2 * nColZone2];
+            for (int i = 0; i < nLinesZone2; i++) {
+                for (int j = 0; j < nColZone2; j++) {
+                    buffer = fieldsMatrixZone2[i][j].getText();
+                    elements[i * nColZone2 + j] = Double.parseDouble(buffer);
+                }
+            }
+            Matrix save = new Matrix(nLinesZone2, nColZone2, elements);
+            do {
+                name = JOptionPane.showInputDialog("Name Matrix :");
+                if (name == null) {
+                    throw new MatrixException();
+                }
+                if (Matrices.contains(name)) {
+                    JOptionPane.showMessageDialog(null, "Name of existing matrix", "Error", JOptionPane.ERROR_MESSAGE);
+                    name = null;
+                } else if (name.length() > 5 || name.isEmpty()) {
+                    JOptionPane.showMessageDialog(window, "The name of the Matrix must contain between 1 and 5 characters!", "Error", JOptionPane.ERROR_MESSAGE);
+                    name = null;
+                }
+            } while (name == null);
+
+            Matrices.add(name);
+            Matrices.add(save);
+
+            refreshSelectorALL();
+
+            if (nameMatrixZone1 != null && opZone1) {
+                selectMatrixZone1.setSelectedItem(nameMatrixZone1);
+            }
+            selectMatrixZone2.setSelectedItem(name);
+
+            MatrixZone2 = save;
+            nColZone2 = save.getNumColumns();
+            nLinesZone2 = save.getNumLines();
+
+            buttonsTabZone2[1].setText("Edit");
+            for (int i = 1; i < 6; i++) {
+                buttonsTabZone2[i].setEnabled(false);
+            }
+            saveZone2 = false;
+            operationZone2();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "One or more fields are invalid", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (MatrixException e) {
+
+        }
+
+    }
+
+    /**
+     * Vide le panel de la Matrix de la zone 1
+     */
+    private void resetMatrixZone1() {
+        if (panelMatrixZone1 != null) {
+            panelMatrixZone1.setVisible(false);
+            panelMatrixZone1.revalidate();
+            panelMatrixZone1 = null;
+            zone1.revalidate();
+        }
+    }
+
+    private void deleteMatrixZone1() {
+        resetMatrixZone1();
+        resetEditionZone1();
+        resetOperationZone1();
+        String name = (String) selectMatrixZone1.getSelectedItem();
+        int index = Matrices.indexOf(name);
+        MatrixZone1 = null;
+        nameMatrixZone1 = null;
+        Matrices.remove(index);
+        Matrices.remove(index);
+        refreshSelectorALL();
+        if (nameMatrixZone2 != null) {
+            selectMatrixZone2.setSelectedItem(nameMatrixZone2);
+        }
+        resetMatrixZone1();
+        initInstructionsZone1();
+        resetOperationZone1();
+        resetEditionZone1();
+    }
+
+    /**
+     * Vide le panel de la Matrix de la zone 2
+     */
+    private void resetMatrixZone2() {
+        if (panelMatrixZone2 != null) {
+            panelMatrixZone2.setVisible(false);
+            panelMatrixZone2.revalidate();
+            panelMatrixZone2 = null;
+            zone2.revalidate();
+        }
+    }
+
+    private void deleteMatrixZone2() {
+        resetMatrixZone2();
+        resetEditionZone2();
+        resetOperationZone2();
+        String name = (String) selectMatrixZone2.getSelectedItem();
+        int index = Matrices.indexOf(name);
+        MatrixZone2 = null;
+        nameMatrixZone2 = null;
+        Matrices.remove(index);
+        Matrices.remove(index);
+        refreshSelectorALL();
+        if (nameMatrixZone1 != null) {
+            selectMatrixZone1.setSelectedItem(nameMatrixZone1);
+        }
+        resetMatrixZone1();
+        initInstructionsZone1();
+        resetOperationZone1();
+        resetEditionZone1();
+    }
+
+    private void initNewMatrixZone1() {
+        int[] tab = {1, 2, 3, 4, 5, 6, 7, 8};
+        instructionsZone1.setVisible(false);
+        selectMatrixZone1.setSelectedItem("");
+        resetMatrixZone1();
+
+        newMatrixUnderPanelZone1 = new JPanel(null);
+        newMatrixUnderPanelZone1.setBounds(105, 125, 250, 95);
+
+        newMatrixPanelZone1 = new JPanel();
+        newMatrixPanelZone1.setLayout(new GridLayout(2, 2, 0, 10));
+        newMatrixPanelZone1.setBounds(0, 0, 250, 60);
+
+        instructionsZone1.setVisible(false);
+
+        newMatrixLabelLinesZone1 = new JLabel("Number of lines : ");
+        newMatrixBoxLinesZone1 = new JComboBox();
+
+        newMatrixLabelColumnsZone1 = new JLabel("Number of columns : ");
+        newMatrixBoxColumnsZone1 = new JComboBox();
+
+        for (int i = 0; i < tab.length; i++) {
+            newMatrixBoxLinesZone1.addItem(tab[i]);
+            newMatrixBoxColumnsZone1.addItem(tab[i]);
+        }
+
+        newMatrixButtonZone1 = new JButton("OK");
+        newMatrixButtonZone1.setBounds(195, 70, 55, 25);
+        newMatrixButtonZone1.addActionListener(this);
+        newMatrixUnderPanelZone1.add(newMatrixButtonZone1);
+
+        newMatrixPanelZone1.add(newMatrixLabelLinesZone1);
+        newMatrixPanelZone1.add(newMatrixBoxLinesZone1);
+
+        newMatrixPanelZone1.add(newMatrixLabelColumnsZone1);
+        newMatrixPanelZone1.add(newMatrixBoxColumnsZone1);
+
+        newMatrixUnderPanelZone1.add(newMatrixPanelZone1);
+
+        zone1.add(newMatrixUnderPanelZone1);
+        zone1.revalidate();
+
+    }
+
+    private void initNewMatrixZone2() {
+        int[] tab = {1, 2, 3, 4, 5, 6, 7, 8};
+        instructionsZone2.setVisible(false);
+        selectMatrixZone2.setSelectedItem("");
+        resetMatrixZone2();
+
+        newMatrixUnderPanelZone2 = new JPanel(null);
+        newMatrixUnderPanelZone2.setBounds(105, 125, 250, 95);
+
+        newMatrixPanelZone2 = new JPanel();
+        newMatrixPanelZone2.setLayout(new GridLayout(2, 2, 0, 10));
+        newMatrixPanelZone2.setBounds(0, 0, 250, 60);
+
+        instructionsZone2.setVisible(false);
+
+        newMatrixLabelLinesZone2 = new JLabel("Number of lines : ");
+        newMatrixBoxLinesZone2 = new JComboBox();
+
+        newMatrixLabelColumnsZone2 = new JLabel("Number of columns : ");
+        newMatrixBoxColumnsZone2 = new JComboBox();
+
+        for (int i = 0; i < tab.length; i++) {
+            newMatrixBoxLinesZone2.addItem(tab[i]);
+            newMatrixBoxColumnsZone2.addItem(tab[i]);
+        }
+
+        newMatrixButtonZone2 = new JButton("OK");
+        newMatrixButtonZone2.setBounds(195, 70, 55, 25);
+        newMatrixButtonZone2.addActionListener(this);
+        newMatrixUnderPanelZone2.add(newMatrixButtonZone2);
+
+        newMatrixPanelZone2.add(newMatrixLabelLinesZone2);
+        newMatrixPanelZone2.add(newMatrixBoxLinesZone2);
+
+        newMatrixPanelZone2.add(newMatrixLabelColumnsZone2);
+        newMatrixPanelZone2.add(newMatrixBoxColumnsZone2);
+
+        newMatrixUnderPanelZone2.add(newMatrixPanelZone2);
+
+        zone2.add(newMatrixUnderPanelZone2);
+        zone2.revalidate();
+
+    }
+
+    private void creerNewMatrixZone1() {
+
+        nLinesZone1 = (int) newMatrixBoxLinesZone1.getSelectedItem();
+        nColZone1 = (int) newMatrixBoxColumnsZone1.getSelectedItem();
+
+        MatrixZone1 = new Matrix(nLinesZone1, nColZone1, 0);
+
+        resetNewMatrixZone1();
+
+        initMatrixZone1();
+        zone1.add(panelMatrixZone1);
+        zone1.revalidate();
+
+        editionZone1();
+        buttonsTabZone1[1].setEnabled(true);
+    }
+
+    private void creerNewMatrixZone2() {
+
+        nLinesZone2 = (int) newMatrixBoxLinesZone2.getSelectedItem();
+        nColZone2 = (int) newMatrixBoxColumnsZone2.getSelectedItem();
+
+        MatrixZone2 = new Matrix(nLinesZone2, nColZone2, 0);
+
+        resetNewMatrixZone2();
+
+        initMatrixZone2();
+        zone2.add(panelMatrixZone2);
+        zone2.revalidate();
+
+        editionZone2();
+        buttonsTabZone2[1].setEnabled(true);
+    }
+
+    private void resetNewMatrixZone1() {
+        newMatrixUnderPanelZone1.setVisible(false);
+        newMatrixUnderPanelZone1.revalidate();
+        newMatrixUnderPanelZone1 = null;
+        zone1.revalidate();
+    }
+
+    private void resetNewMatrixZone2() {
+        newMatrixUnderPanelZone2.setVisible(false);
+        newMatrixUnderPanelZone2.revalidate();
+        newMatrixUnderPanelZone2 = null;
+        zone2.revalidate();
+    }
+
+    private void addLineZone1() {
+        if (nLinesZone1 < 8) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone1; i++) {
+                for (int j = 0; j < nColZone1; j++) {
+                    buffer = fieldsMatrixZone1[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone1.getElement(i, j);
+                    }
+                    MatrixZone1.setElement(i, j, value);
+                }
+            }
+
+            double[] line = new double[nColZone1];
+            for (int i = 0; i < line.length; i++) {
+                line[i] = 0;
+            }
+            MatrixZone1.addLine(nLinesZone1, line);
+            nLinesZone1++;
+
+            resetMatrixZone1();
+            resetOperationZone1();
+            resetEditionZone1();
+            initMatrixZone1();
+            editionZone1();
+            zone1.add(panelMatrixZone1);
+            zone1.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cannot add more than 8 lines", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void addLineZone2() {
+        if (nLinesZone2 < 8) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone2; i++) {
+                for (int j = 0; j < nColZone2; j++) {
+                    buffer = fieldsMatrixZone2[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone2.getElement(i, j);
+                    }
+                    MatrixZone2.setElement(i, j, value);
+                }
+            }
+
+            double[] line = new double[nColZone2];
+            for (int i = 0; i < line.length; i++) {
+                line[i] = 0;
+            }
+            MatrixZone2.addLine(nLinesZone2, line);
+            nLinesZone2++;
+
+            resetMatrixZone2();
+            resetOperationZone2();
+            resetEditionZone2();
+            initMatrixZone2();
+            editionZone2();
+            zone2.add(panelMatrixZone2);
+            zone2.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cannot add more than 8 lines", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void addColumnZone1() {
+        if (nColZone1 < 8) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone1; i++) {
+                for (int j = 0; j < nColZone1; j++) {
+                    buffer = fieldsMatrixZone1[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone1.getElement(i, j);
+                    }
+                    MatrixZone1.setElement(i, j, value);
+                }
+            }
+
+            double[] column = new double[nLinesZone1];
+            for (int i = 0; i < column.length; i++) {
+                column[i] = 0;
+            }
+            MatrixZone1.addColumn(nColZone1, column);
+            nColZone1++;
+
+            resetMatrixZone1();
+            resetOperationZone1();
+            resetEditionZone1();
+            initMatrixZone1();
+            editionZone1();
+            zone1.add(panelMatrixZone1);
+            zone1.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cannot add more than 8 columns", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void addColumnZone2() {
+        if (nColZone2 < 8) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone2; i++) {
+                for (int j = 0; j < nColZone2; j++) {
+                    buffer = fieldsMatrixZone2[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone2.getElement(i, j);
+                    }
+                    MatrixZone2.setElement(i, j, value);
+                }
+            }
+
+            double[] column = new double[nLinesZone2];
+            for (int i = 0; i < column.length; i++) {
+                column[i] = 0;
+            }
+            MatrixZone2.addColumn(nColZone2, column);
+            nColZone2++;
+
+            resetMatrixZone2();
+            resetOperationZone2();
+            resetEditionZone2();
+            initMatrixZone2();
+            editionZone2();
+            zone2.add(panelMatrixZone2);
+            zone2.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cannot add more than 8 columns", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void suppColumnZone1() {
+        if (nColZone1 != 1) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone1; i++) {
+                for (int j = 0; j < nColZone1; j++) {
+                    buffer = fieldsMatrixZone1[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone1.getElement(i, j);
+                    }
+                    MatrixZone1.setElement(i, j, value);
+                }
+            }
+
+            double[] column = MatrixZone1.deleteColumn(nColZone1 - 1);
+            nColZone1--;
+
+            resetMatrixZone1();
+            resetOperationZone1();
+            resetEditionZone1();
+            initMatrixZone1();
+            editionZone1();
+            zone1.add(panelMatrixZone1);
+            zone1.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "A Matrix must contain at least one column", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void suppColumnZone2() {
+        if (nColZone2 != 1) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone2; i++) {
+                for (int j = 0; j < nColZone2; j++) {
+                    buffer = fieldsMatrixZone2[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone2.getElement(i, j);
+                    }
+                    MatrixZone2.setElement(i, j, value);
+                }
+            }
+
+            double[] column = MatrixZone2.deleteColumn(nColZone2 - 1);
+            nColZone2--;
+
+            resetMatrixZone2();
+            resetOperationZone2();
+            resetEditionZone2();
+            initMatrixZone2();
+            editionZone2();
+            zone2.add(panelMatrixZone2);
+            zone2.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "A Matrix must contain at least one column", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void addMatrix() {
+        try {
+            nameMatrixZone4 = nameMatrixZone1 + " + " + nameMatrixZone2 + "  =  ";
+            MatrixZone4 = (Matrix) MatrixZone1.sum(MatrixZone2);
+            resetZone4();
+            populateZone4();
+        } catch (MatrixException e) {
+            JOptionPane.showMessageDialog(null, "Matrices don't have the right format to add up", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void multMatrix() {
+        try {
+            nameMatrixZone4 = nameMatrixZone1 + " x " + nameMatrixZone2 + " =  ";
+            MatrixZone4 = (Matrix) MatrixZone1.product(MatrixZone2);
+            resetZone4();
+            populateZone4();
+        } catch (MatrixException e) {
+            JOptionPane.showMessageDialog(null, "Matrices don't have the right format to multiply", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void multValueZone1() {
+        String scalarText = multScalarZone1.getText();
+        try {
+            double scalar = Double.parseDouble(scalarText);
+            nameMatrixZone4 = nameMatrixZone1 + " * " + scalarText + " =  ";
+            MatrixZone4 = (Matrix) MatrixZone1.product(scalar);
+            resetZone4();
+            populateZone4();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "The entered scalar is not a number", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void multValueZone2() {
+        String scalarText = multScalarZone2.getText();
+        try {
+            double scalar = Double.parseDouble(scalarText);
+            nameMatrixZone4 = nameMatrixZone2 + " * " + scalarText + " =  ";
+            MatrixZone4 = (Matrix) MatrixZone2.product(scalar);
+            resetZone4();
+            populateZone4();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "The entered scalar is not a number", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void suppLineZone1() {
+        if (nLinesZone1 != 1) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone1; i++) {
+                for (int j = 0; j < nColZone1; j++) {
+                    buffer = fieldsMatrixZone1[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone1.getElement(i, j);
+                    }
+                    MatrixZone1.setElement(i, j, value);
+                }
+            }
+
+            double[] line = MatrixZone1.deleteLine(nLinesZone1 - 1);
+            nLinesZone1--;
+
+            resetMatrixZone1();
+            resetOperationZone1();
+            resetEditionZone1();
+            initMatrixZone1();
+            editionZone1();
+            zone1.add(panelMatrixZone1);
+            zone1.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "A Matrix must contain at least one line", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void suppLineZone2() {
+        if (nLinesZone2 != 1) {
+            double value;
+            String buffer;
+            for (int i = 0; i < nLinesZone2; i++) {
+                for (int j = 0; j < nColZone2; j++) {
+                    buffer = fieldsMatrixZone2[i][j].getText();
+                    try {
+                        value = Double.parseDouble(buffer);
+                    } catch (NumberFormatException e) {
+                        value = MatrixZone2.getElement(i, j);
+                    }
+                    MatrixZone2.setElement(i, j, value);
+                }
+            }
+
+            double[] line = MatrixZone2.deleteLine(nLinesZone2 - 1);
+            nLinesZone2--;
+
+            resetMatrixZone2();
+            resetOperationZone2();
+            resetEditionZone2();
+            initMatrixZone2();
+            editionZone2();
+            zone2.add(panelMatrixZone2);
+            zone2.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "A Matrix must contain at least one line", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void transposeZone1() {
+        nameMatrixZone4 = "T (" + nameMatrixZone1 + ")  =  ";
+        MatrixZone4 = (Matrix) MatrixZone1.transpose();
+        resetZone4();
+        populateZone4();
+    }
+
+    private void transposeZone2() {
+        nameMatrixZone4 = "T (" + nameMatrixZone2 + ")  =  ";
+        MatrixZone4 = (Matrix) MatrixZone2.transpose();
+        resetZone4();
+        populateZone4();
+    }
+
+    private void initZone4() {
+        resultZone4 = new JPanel(null);
+        resultZone4.setBounds(10, 10, 970, 210);
+        resultZone4.setBackground(Color.white);
+        Border border = BorderFactory.createLineBorder(Color.black, 2);
+        resultZone4.setBorder(border);
+        zone4.add(resultZone4);
+        window.revalidate();
+    }
+
+    private void populateZone4() {
+        nameZone4 = new JTextArea(nameMatrixZone4);
+        nameZone4.setBounds(80, 20, 60, 25);
+        nameZone4.setEditable(false);
+        Font font = new Font("Courrier New", Font.BOLD, 12);
+        nameZone4.setFont(font);
+        MatrixAffZone4 = new JTextArea(MatrixZone4.toString());
+
+        MatrixAffZone4.setFont(font);
+        MatrixAffZone4.setEditable(false);
+
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(180, 20, 400, 140);
+        scrollPane.setViewportView(MatrixAffZone4);
+
+        saveZone4 = new JButton("Save");
+        saveZone4.setBounds(600, 20, 120, 25);
+        saveZone4.addActionListener(this);
+        resultZone4.add(nameZone4);
+        resultZone4.add(scrollPane);
+        resultZone4.add(saveZone4);
+        resultZone4.revalidate();
+        zone4.revalidate();
+        window.revalidate();
+        window.repaint();
+    }
+
+    private void resetZone4() {
+        if (nameZone4 != null) {
+            nameZone4.setVisible(false);
+            MatrixAffZone4.setVisible(false);
+            scrollPane.setVisible(false);
+            saveZone4.setVisible(false);
+            window.revalidate();
+        }
+    }
+
+    private void saveZone4() {
+        String buffer;
+        String name;
+        int nLines = MatrixZone4.getNumLines();
+        int nCol = MatrixZone4.getNumColumns();
+        double[] elements = new double[nLines * nCol];
+        for (int i = 0; i < nLines; i++) {
+            for (int j = 0; j < nCol; j++) {
+                elements[i * nCol + j] = MatrixZone4.getElement(i, j);
+            }
+        }
+        Matrix save = new Matrix(nLines, nCol, elements);
+        do {
+            name = JOptionPane.showInputDialog("Name Matrix :");
+            if (name == null) {
+                throw new MatrixException();
+            }
+            if (Matrices.contains(name)) {
+                JOptionPane.showMessageDialog(null, "Name of existing matrix", "Error", JOptionPane.ERROR_MESSAGE);
+                name = null;
+            } else if (name.length() > 5 || name.isEmpty()) {
+                JOptionPane.showMessageDialog(window, "The name of the Matrix must contain between 1 and 5 characters!", "Error", JOptionPane.ERROR_MESSAGE);
+                name = null;
+            }
+        } while (name == null);
+
+        Matrices.add(name);
+        Matrices.add(save);
+
+        refreshSelectorALL();
+
+        if (nameMatrixZone2 != null) {
+            selectMatrixZone2.setSelectedItem(nameMatrixZone2);
+        }
+        if (nameMatrixZone1 != null) {
+            selectMatrixZone1.setSelectedItem(nameMatrixZone1);
+        }
+        resetZone4();
+    }
+
+}
