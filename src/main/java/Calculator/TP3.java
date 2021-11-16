@@ -1,6 +1,5 @@
 package Calculator;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -17,8 +16,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * CONSTANTES DE CLASSE
-        ***********************************
+     * CONSTANTES DE CLASSE **********************************
      */
     //width et height de l'ecran de l'ordinateur
     public final static int LARGE_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -38,8 +36,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * VARIABLES D'INSTANCE
-	 ***********************************
+     * VARIABLES D'INSTANCE **********************************
      */
     //Liste de Matrices + nom
     private ArrayList<Object> Matrices;
@@ -57,8 +54,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * COMPOSANTS GRAPHIQUES
-	 ***********************************
+     * COMPOSANTS GRAPHIQUES **********************************
      */
     //Window principale
     private JFrame window;
@@ -121,7 +117,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * ***************************************************************
      * New Matrix
-	 ****************************************************************
+     * ***************************************************************
      */
     // Zone 1
     private JLabel newMatrixLabelLinesZone1;
@@ -223,8 +219,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
         /**
          * ***********************
-         * ÉCOUTEURS
-		 ************************
+         * ÉCOUTEURS ***********************
          */
         //add d'un ecouteur sur la window
         window.addWindowListener(this); //voir redef methode windowClosing
@@ -662,7 +657,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Matrix 1
-	 ********************************************************************************
+     * *******************************************************************************
      */
     /**
      * Intialise la représentation graphique de la Matrix dans la zone 1
@@ -702,7 +697,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Matrix 2
-	 ********************************************************************************
+     * *******************************************************************************
      */
     /**
      * Intialise la représentation graphique de la Matrix dans la zone 1
@@ -740,7 +735,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Actions
-	 ********************************************************************************
+     * *******************************************************************************
      */
     /**
      * Action lorsqu'une Matrix est selectionnée en zone1
