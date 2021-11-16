@@ -12,19 +12,13 @@ import javax.swing.border.*;
 /**
  * Classe implémentant l'interface IMatrix qui effectue des opérations sur une
  * Matrix implémentée avec une liste chainée.
- *
- * @author Thomas Castonguay-Gagnon
- * @author Arnaud Dupré
- * @author CAST10059303
- * @author DUPA10029407
- * @version 1.0
  */
 public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
      * CONSTANTES DE CLASSE
-	 ***********************************
+        ***********************************
      */
     //width et height de l'ecran de l'ordinateur
     public final static int LARGE_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -264,9 +258,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
         } else if (event == deleteZone2) {
             deleteMatrixZone2();
         } else if (event == newMatrixButtonZone1) {
-            creerNewMatrixZone1();
+            createNewMatrixZone1();
         } else if (event == newMatrixButtonZone2) {
-            creerNewMatrixZone2();
+            createNewMatrixZone2();
         } else if (event == buttonsTabZone1[2]) {
             addLineZone1();
         } else if (event == buttonsTabZone2[2]) {
@@ -1201,7 +1195,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     }
 
-    private void creerNewMatrixZone1() {
+    private void createNewMatrixZone1() {
 
         nLinesZone1 = (int) newMatrixBoxLinesZone1.getSelectedItem();
         nColZone1 = (int) newMatrixBoxColumnsZone1.getSelectedItem();
@@ -1218,7 +1212,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         buttonsTabZone1[1].setEnabled(true);
     }
 
-    private void creerNewMatrixZone2() {
+    private void createNewMatrixZone2() {
 
         nLinesZone2 = (int) newMatrixBoxLinesZone2.getSelectedItem();
         nColZone2 = (int) newMatrixBoxColumnsZone2.getSelectedItem();
