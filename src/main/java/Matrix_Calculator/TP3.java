@@ -24,10 +24,10 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * **********************************
      * CONSTANTES DE CLASSE **********************************
      */
-    //width et hight de l'ecran de l'ordinateur
+    //width et height de l'ecran de l'ordinateur
     public final static int LARGE_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().width;
     public final static int HIGH_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().height;
-    //width et hight de la window principale
+    //width et height de la window principale
     public final static int LARGE_WINDOW = 1000;
     public final static int HIGH_WINDOW = 630;
 
@@ -399,12 +399,12 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * @param x position du panel en X
      * @param y position du panel en Y
      * @param width Largeur du panel
-     * @param hight Hauteur du panel
+     * @param height Hauteur du panel
      * @return un JPanel selon les tailles et la position en paramètre.
      */
-    private JPanel zone(int x, int y, int width, int hight) {
+    private JPanel zone(int x, int y, int width, int height) {
         JPanel panel = new JPanel(null);
-        panel.setSize(width, hight);
+        panel.setSize(width, height);
         panel.setLocation(x, y);
         return panel;
     }
@@ -416,12 +416,12 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * @param x Position en x du button
      * @param y Position en y du button
      * @param width Largeur du button
-     * @param hight Hauteur du button
+     * @param height Hauteur du button
      * @return Un JButton avec les paramètres donnés.
      */
-    private JButton button(String name, int x, int y, int width, int hight) {
+    private JButton button(String name, int x, int y, int width, int height) {
         JButton button = new JButton(name);
-        button.setSize(width, hight);
+        button.setSize(width, height);
         button.setLocation(x, y);
         return button;
     }
@@ -673,11 +673,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
             resetMatrixZone1();
         }
         int width = 55 * nColZone1;
-        int hight = 30 * nLinesZone1;
+        int height = 30 * nLinesZone1;
         int positionX = 5 + ((440 - width) / 2);
-        int positionY = 50 + ((240 - hight) / 2);
+        int positionY = 50 + ((240 - height) / 2);
         panelMatrixZone1 = new JPanel(new GridLayout(nLinesZone1, nColZone1, 5, 5));
-        panelMatrixZone1.setBounds(positionX, positionY, width, hight);
+        panelMatrixZone1.setBounds(positionX, positionY, width, height);
         panelMatrixZone1.setVisible(true);
         fieldsMatrixZone1(nColZone1, nLinesZone1);
         panelMatrixZone1.repaint();
@@ -713,11 +713,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
             resetMatrixZone2();
         }
         int width = 55 * nColZone2;
-        int hight = 30 * nLinesZone2;
+        int height = 30 * nLinesZone2;
         int positionX = 5 + ((440 - width) / 2);
-        int positionY = 50 + ((240 - hight) / 2);
+        int positionY = 50 + ((240 - height) / 2);
         panelMatrixZone2 = new JPanel(new GridLayout(nLinesZone2, nColZone2, 5, 5));
-        panelMatrixZone2.setBounds(positionX, positionY, width, hight);
+        panelMatrixZone2.setBounds(positionX, positionY, width, height);
         fieldsMatrixZone2(nColZone2, nLinesZone2);
         panelMatrixZone2.revalidate();
         zone2.revalidate();
