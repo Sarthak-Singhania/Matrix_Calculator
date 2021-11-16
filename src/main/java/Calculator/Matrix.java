@@ -1,4 +1,4 @@
-package Matrix_Calculator;
+package Calculator;
 
 
 import java.text.DecimalFormat;

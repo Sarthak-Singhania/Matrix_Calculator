@@ -1,4 +1,5 @@
-package Matrix_Calculator;
+package Calculator;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -22,7 +23,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * CONSTANTES DE CLASSE **********************************
+     * CONSTANTES DE CLASSE
+	 ***********************************
      */
     //width et height de l'ecran de l'ordinateur
     public final static int LARGE_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -42,7 +44,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * VARIABLES D'INSTANCE **********************************
+     * VARIABLES D'INSTANCE
+	 ***********************************
      */
     //Liste de Matrices + nom
     private ArrayList<Object> Matrices;
@@ -60,7 +63,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * COMPOSANTS GRAPHIQUES **********************************
+     * COMPOSANTS GRAPHIQUES
+	 ***********************************
      */
     //Window principale
     private JFrame window;
@@ -123,7 +127,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * ***************************************************************
      * New Matrix
-     * ***************************************************************
+	 ****************************************************************
      */
     // Zone 1
     private JLabel newMatrixLabelLinesZone1;
@@ -225,7 +229,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
         /**
          * ***********************
-         * ÉCOUTEURS ***********************
+         * ÉCOUTEURS
+		 ************************
          */
         //add d'un ecouteur sur la window
         window.addWindowListener(this); //voir redef methode windowClosing
@@ -259,9 +264,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
         } else if (event == deleteZone2) {
             deleteMatrixZone2();
         } else if (event == newMatrixButtonZone1) {
-            createNewMatrixZone1();
+            creerNewMatrixZone1();
         } else if (event == newMatrixButtonZone2) {
-            createNewMatrixZone2();
+            creerNewMatrixZone2();
         } else if (event == buttonsTabZone1[2]) {
             addLineZone1();
         } else if (event == buttonsTabZone2[2]) {
@@ -663,7 +668,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Matrix 1
-     * *******************************************************************************
+	 ********************************************************************************
      */
     /**
      * Intialise la représentation graphique de la Matrix dans la zone 1
@@ -703,7 +708,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Matrix 2
-     * *******************************************************************************
+	 ********************************************************************************
      */
     /**
      * Intialise la représentation graphique de la Matrix dans la zone 1
@@ -741,7 +746,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Actions
-     * *******************************************************************************
+	 ********************************************************************************
      */
     /**
      * Action lorsqu'une Matrix est selectionnée en zone1
@@ -1196,7 +1201,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     }
 
-    private void createNewMatrixZone1() {
+    private void creerNewMatrixZone1() {
 
         nLinesZone1 = (int) newMatrixBoxLinesZone1.getSelectedItem();
         nColZone1 = (int) newMatrixBoxColumnsZone1.getSelectedItem();
@@ -1213,7 +1218,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         buttonsTabZone1[1].setEnabled(true);
     }
 
-    private void createNewMatrixZone2() {
+    private void creerNewMatrixZone2() {
 
         nLinesZone2 = (int) newMatrixBoxLinesZone2.getSelectedItem();
         nColZone2 = (int) newMatrixBoxColumnsZone2.getSelectedItem();
