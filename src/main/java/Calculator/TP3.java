@@ -290,7 +290,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     }
 
     /*
-     * When closing the window, save all the Matrices in the file matrices.txt
+     * When closing the window, save all the Matrices in the file FIC_Matrices.
      * @param the window closing event.
      */
     @Override
