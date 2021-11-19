@@ -85,10 +85,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
     //Right Matrix Selector
     private JPanel selectorZone2;
     private JComboBox selectMatrixZone2;
-
-    // Composants graphiques
+    //Deleting the Left Matrix
     private JButton deleteZone1;
+    //Deleting the Right Matrix
     private JButton deleteZone2;
+    // Add & Mul Buttons
     private JButton addition;
     private JButton multiplication;
     private JButton[] buttonsTabZone1;
@@ -111,7 +112,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JScrollPane scrollPane;
     private JButton saveZone4;
 
-    // État de la Matrix en mode édition
+    // Matrix in Edit Mode
     private boolean saveZone1;
     private boolean saveZone2;
     private boolean opZone1;
@@ -122,7 +123,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * New Matrix
 	 ****************************************************************
      */
-    // Zone 1
+    // Zone 1 (Left Matrix)
     private JLabel newMatrixLabelLinesZone1;
     private JComboBox newMatrixBoxLinesZone1;
     private JLabel newMatrixLabelColumnsZone1;
@@ -131,7 +132,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JPanel newMatrixUnderPanelZone1;
     private JButton newMatrixButtonZone1;
 
-    // Zone 2
+    // Zone 2 (Right Matrix)
     private JLabel newMatrixLabelLinesZone2;
     private JComboBox newMatrixBoxLinesZone2;
     private JLabel newMatrixLabelColumnsZone2;
@@ -141,29 +142,29 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JButton newMatrixButtonZone2;
 
     /**
-     * Constructeur qui initialise l'application.
+     * Initialising the Application
      */
     public TP3() {
         init();
     }
 
-    /**
-     * Initialisation des composants graphiques.
+    /*
+    Initialising the Graphic Components
      */
     private void init() {
         fileScanner();
-        //FENETRE JFRAME
+        //JFrame Window
         window = new JFrame(TITLE_WINDOW);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setLayout(null);
-        //centrer la window principale dans l'écran
+        //Putting the Main Window in the Center of Screen
         window.setBounds(LARGE_SCREEN / 2 - LARGE_WINDOW / 2, HIGH_SCREEN / 2 - HIGH_WINDOW / 2, LARGE_WINDOW, HIGH_WINDOW);
 
         contentsWindow = window.getContentPane();
 
         /*
-		 * Initialisation des zones
+		 * Initialising the Zones
          */
         zone1 = zone(0, 0, 460, 375);
         zone3 = zone(460, 0, 80, 375);
@@ -171,7 +172,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone4 = zone(0, 375, 1000, 255);
 
         /*
-		 * Initialisation des buttons.
+		 * Initialising the Buttons
          */
         initButtonsZone1();
         initButtonsZone2();
@@ -186,47 +187,42 @@ public class TP3 extends WindowAdapter implements ActionListener {
         multiplication.setEnabled(false);
         multiplication.addActionListener(this);
 
-        /*
-		 * Ajout des composants dans zone1
+        /**
+         * **********************************
+         * Adding Components to the Zones
+         ***********************************
          */
         zone1.add(selectorZone1);
         zone1.add(panel1ButtonsZone1);
         zone1.add(panel2ButtonsZone1);
 
-        /*
-		 * Ajout des composants dans la zone2
-         */
         zone2.add(selectorZone2);
         zone2.add(panel1ButtonsZone2);
         zone2.add(panel2ButtonsZone2);
 
-        /*
-		 * Ajout des composants dans la zone3
-         */
         zone3.add(addition);
         zone3.add(multiplication);
 
         initZone4();
 
         /*
-		 * Ajout des zones à la fenètre
+		 * Adding Zones to Frame
          */
         contentsWindow.add(zone1);
         contentsWindow.add(zone3);
         contentsWindow.add(zone2);
         contentsWindow.add(zone4);
 
-        //Laisser cette instruction à la fin de l'initialisation des composants
-        //graphiques.
+        //Leave this instruction at the end of the initialization of the graphics components.
         window.setVisible(true);
 
         /**
          * ***********************
-         * ÉCOUTEURS
+         * Listeners
 		 ************************
          */
-        //add d'un ecouteur sur la window
-        window.addWindowListener(this); //voir redef methode windowClosing
+        //Adding Listener to Window
+        window.addWindowListener(this); // See the WindowClosing Method
 
     }
 
