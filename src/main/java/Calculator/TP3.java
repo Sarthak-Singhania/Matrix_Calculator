@@ -1,5 +1,6 @@
 package Calculator;
 
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -9,26 +10,28 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 /**
- * Classe implémentant l'interface IMatrix qui effectue des opérations sur une
- * Matrix implémentée avec une liste chainée.
+ * Class implementing the IMatrix interface that performs operations on a
+ * Matrix implemented with a linked list.
+
  */
 public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * CONSTANTES DE CLASSE **********************************
+     * CLASS CONSTANTS
+	 ***********************************
      */
-    //width et height de l'ecran de l'ordinateur
+    //We Define Width & Height of Our Screen
     public final static int LARGE_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().width;
     public final static int HIGH_SCREEN = Toolkit.getDefaultToolkit().getScreenSize().height;
-    //width et height de la window principale
+    //The Width & Height of the Main Window
     public final static int LARGE_WINDOW = 1000;
     public final static int HIGH_WINDOW = 630;
 
-    //fichier d'enregistrement des Matrices (à la racine du projet)
+    //File where the Entered Matrices are Stored
     public final static String FIC_Matrices = "Matrices.txt";
 
-    //titre de la fenêtre principale
+    //Defining the Title of Our Window
     public final static String TITLE_WINDOW = "Matrix Calculator";
 
     // Instructions
@@ -36,9 +39,10 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * VARIABLES D'INSTANCE **********************************
+     * INSTANCE VARIABLES
+	 ***********************************
      */
-    //Liste de Matrices + nom
+    //Matrix List & Names
     private ArrayList<Object> Matrices;
     private String nameMatrixZone1;
     private Matrix MatrixZone1;
@@ -54,33 +58,32 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     /**
      * **********************************
-     * COMPOSANTS GRAPHIQUES **********************************
+     * GRAPHIC COMPONENTS
+	 ***********************************
      */
-    //Window principale
+    //Main Window
     private JFrame window;
-    //Contenu de la window
+    //Window Contents
     private Container contentsWindow;
-    //Zone Matrix de gauche
+    //Matrix on Left
     private JPanel zone1;
-    //Zone Matrix de groite
+    //Matrix on Right
     private JPanel zone2;
-    //Zone de calcul entre 2 Matrices
+    //Operations space between Matrices
     private JPanel zone3;
-    //Zone de résultat de l'opération entre 2 Matrices
+    //Result Area
     private JPanel zone4;
-    //Panneau de buttons Zone1
+    //Buttons for Left Matrix
     private JPanel panel1ButtonsZone1;
     private JPanel panel2ButtonsZone1;
-    //Panneau de buttons Zone2
+    //Buttons for Right Matrix
     private JPanel panel1ButtonsZone2;
     private JPanel panel2ButtonsZone2;
-    //Sélection de Matrix de gauche
+    //Left Matrix Selector
     private JPanel selectorZone1;
-    //Sélection de Matrix de droite
-    private JPanel selectorZone2;
-    //Selecteur de Matrix de gauche
     private JComboBox selectMatrixZone1;
-    //Selecteur de Matrix de droite
+    //Right Matrix Selector
+    private JPanel selectorZone2;
     private JComboBox selectMatrixZone2;
 
     // Composants graphiques
@@ -117,7 +120,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * ***************************************************************
      * New Matrix
-     * ***************************************************************
+	 ****************************************************************
      */
     // Zone 1
     private JLabel newMatrixLabelLinesZone1;
@@ -219,7 +222,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
         /**
          * ***********************
-         * ÉCOUTEURS ***********************
+         * ÉCOUTEURS
+		 ************************
          */
         //add d'un ecouteur sur la window
         window.addWindowListener(this); //voir redef methode windowClosing
@@ -253,9 +257,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
         } else if (event == deleteZone2) {
             deleteMatrixZone2();
         } else if (event == newMatrixButtonZone1) {
-            createNewMatrixZone1();
+            creerNewMatrixZone1();
         } else if (event == newMatrixButtonZone2) {
-            createNewMatrixZone2();
+            creerNewMatrixZone2();
         } else if (event == buttonsTabZone1[2]) {
             addLineZone1();
         } else if (event == buttonsTabZone2[2]) {
@@ -393,12 +397,12 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * @param x position du panel en X
      * @param y position du panel en Y
      * @param width Largeur du panel
-     * @param height Hauteur du panel
+     * @param hight Hauteur du panel
      * @return un JPanel selon les tailles et la position en paramètre.
      */
-    private JPanel zone(int x, int y, int width, int height) {
+    private JPanel zone(int x, int y, int width, int hight) {
         JPanel panel = new JPanel(null);
-        panel.setSize(width, height);
+        panel.setSize(width, hight);
         panel.setLocation(x, y);
         return panel;
     }
@@ -410,12 +414,12 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * @param x Position en x du button
      * @param y Position en y du button
      * @param width Largeur du button
-     * @param height Hauteur du button
+     * @param hight Hauteur du button
      * @return Un JButton avec les paramètres donnés.
      */
-    private JButton button(String name, int x, int y, int width, int height) {
+    private JButton button(String name, int x, int y, int width, int hight) {
         JButton button = new JButton(name);
-        button.setSize(width, height);
+        button.setSize(width, hight);
         button.setLocation(x, y);
         return button;
     }
@@ -657,7 +661,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Matrix 1
-     * *******************************************************************************
+	 ********************************************************************************
      */
     /**
      * Intialise la représentation graphique de la Matrix dans la zone 1
@@ -667,11 +671,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
             resetMatrixZone1();
         }
         int width = 55 * nColZone1;
-        int height = 30 * nLinesZone1;
+        int hight = 30 * nLinesZone1;
         int positionX = 5 + ((440 - width) / 2);
-        int positionY = 50 + ((240 - height) / 2);
+        int positionY = 50 + ((240 - hight) / 2);
         panelMatrixZone1 = new JPanel(new GridLayout(nLinesZone1, nColZone1, 5, 5));
-        panelMatrixZone1.setBounds(positionX, positionY, width, height);
+        panelMatrixZone1.setBounds(positionX, positionY, width, hight);
         panelMatrixZone1.setVisible(true);
         fieldsMatrixZone1(nColZone1, nLinesZone1);
         panelMatrixZone1.repaint();
@@ -697,7 +701,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Matrix 2
-     * *******************************************************************************
+	 ********************************************************************************
      */
     /**
      * Intialise la représentation graphique de la Matrix dans la zone 1
@@ -707,11 +711,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
             resetMatrixZone2();
         }
         int width = 55 * nColZone2;
-        int height = 30 * nLinesZone2;
+        int hight = 30 * nLinesZone2;
         int positionX = 5 + ((440 - width) / 2);
-        int positionY = 50 + ((240 - height) / 2);
+        int positionY = 50 + ((240 - hight) / 2);
         panelMatrixZone2 = new JPanel(new GridLayout(nLinesZone2, nColZone2, 5, 5));
-        panelMatrixZone2.setBounds(positionX, positionY, width, height);
+        panelMatrixZone2.setBounds(positionX, positionY, width, hight);
         fieldsMatrixZone2(nColZone2, nLinesZone2);
         panelMatrixZone2.revalidate();
         zone2.revalidate();
@@ -735,7 +739,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     /**
      * *******************************************************************************
      * Actions
-     * *******************************************************************************
+	 ********************************************************************************
      */
     /**
      * Action lorsqu'une Matrix est selectionnée en zone1
@@ -1190,7 +1194,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     }
 
-    private void createNewMatrixZone1() {
+    private void creerNewMatrixZone1() {
 
         nLinesZone1 = (int) newMatrixBoxLinesZone1.getSelectedItem();
         nColZone1 = (int) newMatrixBoxColumnsZone1.getSelectedItem();
@@ -1207,7 +1211,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         buttonsTabZone1[1].setEnabled(true);
     }
 
-    private void createNewMatrixZone2() {
+    private void creerNewMatrixZone2() {
 
         nLinesZone2 = (int) newMatrixBoxLinesZone2.getSelectedItem();
         nColZone2 = (int) newMatrixBoxColumnsZone2.getSelectedItem();
