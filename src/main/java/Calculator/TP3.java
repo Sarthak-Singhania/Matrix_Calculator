@@ -187,7 +187,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         multiplication.setEnabled(false);
         multiplication.addActionListener(this);
 
-        /**
+        /*
          * **********************************
          * Adding Components to the Zones
          ***********************************
@@ -216,7 +216,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         //Leave this instruction at the end of the initialization of the graphics components.
         window.setVisible(true);
 
-        /**
+        /*
          * ***********************
          * Listeners
 		 ************************
@@ -289,11 +289,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
-     * A la fermeture de la window, enregistrement des toutes les Matrices dans
-     * le fichier FIC_Matrices.
-     *
-     * @param e l'evenement de fermeture de window.
+    /*
+     * When closing the window, save all the Matrices in the file matrices.txt
+     * @param the window closing event.
      */
     @Override
     public void windowClosing(WindowEvent e) {
