@@ -854,8 +854,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     }
 
     /*
-     * Mode d'édition de la zone1, permet d'effectuer des modifications sur la
-     * Matrix en zone1
+     Edit Mode, allows you to make changes to the Matrix in Zone 1
      */
     private void editionZone1() {
         resetOperationZone1();
@@ -881,10 +880,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     }
 
-    /**
-     * Lorsque le button save de la zone1 est appuyé, sauvegarde les
-     * modifications effectuées dans la Matrix. La zone retourne en mode
-     * opération
+    /*
+     When the save button of zone 1 is pressed, saves the modifications made in the Matrix. The zone returns to operation mode
      */
     private void saveZone1() {
         try {
@@ -939,9 +936,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
-     * Mode d'édition de la zone2, permet d'effectuer des modifications sur la
-     * Matrix en zone2
+    /*
+    Edit Mode, allows you to make changes to the Matrix in Zone 2
      */
     private void editionZone2() {
         resetOperationZone2();
@@ -966,10 +962,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         saveZone2 = false;
     }
 
-    /**
-     * Lorsque le button save de la zone2 est appuyé, sauvegarde les
-     * modifications effectuées dans la Matrix. La zone retourne en mode
-     * opération
+    /*
+    When the save button of zone 2 is pressed, saves the modifications made in the Matrix. The zone returns to operation mode
      */
     private void saveZone2() {
         try {
@@ -1025,8 +1019,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     }
 
-    /**
-     * Vide le panel de la Matrix de la zone 1
+    /*
+     Empty the Matrix panel of zone 1
      */
     private void resetMatrixZone1() {
         if (panelMatrixZone1 != null) {
@@ -1057,8 +1051,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         resetEditionZone1();
     }
 
-    /**
-     * Vide le panel de la Matrix de la zone 2
+    /*
+     Empty the Matrix panel of zone 2
      */
     private void resetMatrixZone2() {
         if (panelMatrixZone2 != null) {
