@@ -328,8 +328,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         new TP3();
     }
 
-    /**
-     * Lecture du fichier texte Matrix.txt
+    /*
+     * Reading the matrices.txt file
      */
     private void fileScanner() {
         try {
@@ -384,15 +384,13 @@ public class TP3 extends WindowAdapter implements ActionListener {
         Matrices.add(Matrix);
     }
 
-    /**
-     * Crontruit un panel avec layout null et les positions et dimentions
-     * écrites
-     *
-     * @param x position du panel en X
-     * @param y position du panel en Y
-     * @param width Largeur du panel
-     * @param hight Hauteur du panel
-     * @return un JPanel selon les tailles et la position en paramètre.
+    /*
+     Construct a panel with null layout and written positions and dimensions
+     * @param x panel position in X
+     * @param y panel position in Y
+     * @param width Panel width
+     * @param height Panel height
+     * @return a JPanel according to the sizes and the position in parameter.
      */
     private JPanel zone(int x, int y, int width, int hight) {
         JPanel panel = new JPanel(null);
@@ -401,15 +399,15 @@ public class TP3 extends WindowAdapter implements ActionListener {
         return panel;
     }
 
-    /**
-     * Crée un button avec le label donné.
+    /*
+     * Create a button with the given label.
      *
-     * @param name Label du button
-     * @param x Position en x du button
-     * @param y Position en y du button
-     * @param width Largeur du button
-     * @param hight Hauteur du button
-     * @return Un JButton avec les paramètres donnés.
+     * @param name Label of the button
+     * @param x Position in x of the button
+     * @param y Position in y of the button
+     * @param width Width of the button
+     * @param height Button height
+     * @return A JButton with the given parameters.
      */
     private JButton button(String name, int x, int y, int width, int hight) {
         JButton button = new JButton(name);
@@ -419,53 +417,51 @@ public class TP3 extends WindowAdapter implements ActionListener {
     }
 
     /**
-     * Initialise les bouttons de la zone 1
+     * Initialising Buttons in Zone 1 (Left-Side)
      */
     private void initButtonsZone1() {
-        // Panel des buttons
         panel1ButtonsZone1 = zone(0, 300, 460, 40);
         panel2ButtonsZone1 = zone(0, 335, 460, 40);
         panel1ButtonsZone1.setLayout(new FlowLayout());
         panel2ButtonsZone1.setLayout(new FlowLayout());
 
-        // Tableau de buttons
+        //Buttons Array
         buttonsTabZone1 = new JButton[7];
-
-        // Bouton newelle Matrix
+        // New Matrix Button
         buttonsTabZone1[0] = new JButton("New");
         panel1ButtonsZone1.add(buttonsTabZone1[0]);
 
-        // Bouton mode édition / save
+        // Save/Edit Button
         buttonsTabZone1[1] = new JButton("Edit");
         buttonsTabZone1[1].setEnabled(false);
         panel1ButtonsZone1.add(buttonsTabZone1[1]);
 
-        // Mode edition, add une line
+        // Add New Row Button
         buttonsTabZone1[2] = new JButton("+ Line");
         buttonsTabZone1[2].setEnabled(false);
 
-        // Mode edition, add une column
+        // Add New Column Button
         panel1ButtonsZone1.add(buttonsTabZone1[2]);
         buttonsTabZone1[3] = new JButton("+ Column");
         buttonsTabZone1[3].setEnabled(false);
         panel1ButtonsZone1.add(buttonsTabZone1[3]);
 
-        // Mode edition, delete une line
+        // Delete a Row Button
         buttonsTabZone1[4] = new JButton("- Line");
         buttonsTabZone1[4].setEnabled(false);
         panel2ButtonsZone1.add(buttonsTabZone1[4]);
 
-        // Mode edition, delete une column
+        // Delete a Column Button
         buttonsTabZone1[5] = new JButton("- Column");
         buttonsTabZone1[5].setEnabled(false);
         panel2ButtonsZone1.add(buttonsTabZone1[5]);
 
-        // Mode opération, tansposée de la Matrix
+        // Transpose Operation Button
         buttonsTabZone1[6] = new JButton("Transpose");
         buttonsTabZone1[6].setEnabled(false);
         panel2ButtonsZone1.add(buttonsTabZone1[6]);
 
-        // Mode opération, multiplication par un scalar.
+        // Scalar Multiplication Operation Button
         multLabelZone1 = new JLabel("Mult. through");
         multLabelZone1.setEnabled(false);
         panel2ButtonsZone1.add(multLabelZone1);
@@ -480,54 +476,53 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
-     * Initialise les bouttons de la zone 3
+    /*
+     * Initialising Button in Zone 3
      */
     private void initButtonsZone2() {
-        // Panel des buttons
         panel1ButtonsZone2 = zone(0, 300, 460, 40);
         panel2ButtonsZone2 = zone(0, 335, 460, 40);
         panel1ButtonsZone2.setLayout(new FlowLayout());
         panel2ButtonsZone2.setLayout(new FlowLayout());
 
-        // Tableau de buttons
+        // Array of Buttons
         buttonsTabZone2 = new JButton[7];
 
-        // Bouton newelle Matrix
+        // New Button
         buttonsTabZone2[0] = new JButton("New");
         panel1ButtonsZone2.add(buttonsTabZone2[0]);
 
-        // Bouton mode édition / save
+        // Save/Edit Button
         buttonsTabZone2[1] = new JButton("Edit");
         buttonsTabZone2[1].setEnabled(false);
         panel1ButtonsZone2.add(buttonsTabZone2[1]);
 
-        // Mode edition, add une line
+        // Add Row Button
         buttonsTabZone2[2] = new JButton("+ Line");
         buttonsTabZone2[2].setEnabled(false);
         panel1ButtonsZone2.add(buttonsTabZone2[2]);
 
-        // Mode edition, add une column
+        // Add Column Button
         buttonsTabZone2[3] = new JButton("+ Column");
         buttonsTabZone2[3].setEnabled(false);
         panel1ButtonsZone2.add(buttonsTabZone2[3]);
 
-        // Mode edition, delete une line
+        // Delete Row Button
         buttonsTabZone2[4] = new JButton("- Line");
         buttonsTabZone2[4].setEnabled(false);
         panel2ButtonsZone2.add(buttonsTabZone2[4]);
 
-        // Mode edition, delete column
+        // Delete Column Button
         buttonsTabZone2[5] = new JButton("- Column");
         buttonsTabZone2[5].setEnabled(false);
         panel2ButtonsZone2.add(buttonsTabZone2[5]);
 
-        // Mode opération, transposée
+        // Transpose Operation Button
         buttonsTabZone2[6] = new JButton("Transpose");
         buttonsTabZone2[6].setEnabled(false);
         panel2ButtonsZone2.add(buttonsTabZone2[6]);
 
-        // Mode opération, multiplication par un scalar
+        // Scalar Multiplication Button
         multLabelZone2 = new JLabel("Mult. through");
         multLabelZone2.setEnabled(false);
         panel2ButtonsZone2.add(multLabelZone2);
@@ -542,9 +537,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
-     * Initialise le sélecteur de Matrix dans la zone1 selon les Matrices
-     * présentes dans l'arraylist
+    /*
+    Initializes the Matrix selector in zone1 according to the Matrices present in the arraylist
      */
     private void initMatrixSelectZone1() {
         selectMatrixZone1 = new JComboBox();
@@ -570,9 +564,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         window.revalidate();
     }
 
-    /**
-     * Initialise la sélection de la Matrix dans la zone1. Bouton delete +
-     * Sélecteur
+    /*
+     Initializes the selection of the Matrix in zone1. Delete button + Selector
      */
     private void initSelectionZone1() {
         selectorZone1 = zone(0, 0, 460, 49);
@@ -586,9 +579,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone1.revalidate();
     }
 
-    /**
-     * Initialise le sélecteur de Matrix dans la zone2 selon les Matrices
-     * présentes dans l'arraylist
+    /*Initializes the Matrix selector in zone2 according to the Matrices present in the arraylist
      */
     private void initMatrixSelectZone2() {
         selectMatrixZone2 = new JComboBox();
@@ -604,9 +595,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         selectMatrixZone2.addActionListener(this);
     }
 
-    /**
-     * Initialise la sélection de la Matrix dans la zone2. Boutton delete +
-     * sélecteur
+    /*
+    Initializes the selection of the Matrix in zone1. Delete button + Selector
      */
     private void initSelectionZone2() {
         selectorZone2 = zone(0, 0, 460, 49);
@@ -620,8 +610,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone2.revalidate();
     }
 
-    /**
-     * Initialise les instructions de la Zone1
+    /*Initialising Instructions in Zone 1
      */
     private void initInstructionsZone1() {
         instructionsZone1 = new JTextArea();
@@ -637,7 +626,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     }
 
     /**
-     * Initialise les instructions de la zone2
+     * Initialising Instructions in Zone 2
      */
     private void initInstructionsZone2() {
         instructionsZone2 = new JTextArea();
@@ -652,13 +641,13 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone2.revalidate();
     }
 
-    /**
+    /*
      * *******************************************************************************
      * Matrix 1
 	 ********************************************************************************
      */
-    /**
-     * Intialise la représentation graphique de la Matrix dans la zone 1
+    /*
+     * Initialising the Graphic representation of Matrix in Zone 1
      */
     private void initMatrixZone1() {
         if (panelMatrixZone1 != null) {
@@ -676,8 +665,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone1.repaint();
     }
 
-    /**
-     * Initialise les champs de la Matrix avec les values de celle-ci
+    /*
+     Initialising the Fields & their respective values
      */
     private void fieldsMatrixZone1(int nCol, int nLines) {
         fieldsMatrixZone1 = new JTextField[nLines][nCol];
@@ -692,13 +681,13 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
+    /*
      * *******************************************************************************
      * Matrix 2
 	 ********************************************************************************
      */
-    /**
-     * Intialise la représentation graphique de la Matrix dans la zone 1
+    /*
+    Initialising the Graphic representation of Matrix in Zone 2
      */
     private void initMatrixZone2() {
         if (panelMatrixZone2 != null) {
@@ -715,8 +704,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone2.revalidate();
     }
 
-    /**
-     * Initialise les champs de la Matrix avec les values de celle-ci
+    /*
+      Initialising the Fields & their respective values
      */
     private void fieldsMatrixZone2(int nCol, int nLines) {
         fieldsMatrixZone2 = new JTextField[nLines][nCol];
@@ -730,13 +719,13 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
+    /*
      * *******************************************************************************
      * Actions
 	 ********************************************************************************
      */
-    /**
-     * Action lorsqu'une Matrix est selectionnée en zone1
+    /*
+     Action when a Matrix is selected in zone 1
      */
     private void selectMatrixZone1() {
         if (newMatrixUnderPanelZone1 != null) {
@@ -766,8 +755,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
-     * Action lorsqu'une Matrix est selectionnée en zone2
+    /*
+    Action when a Matrix is selected in zone 2
      */
     private void selectMatrixZone2() {
         if (newMatrixUnderPanelZone2 != null) {
@@ -797,8 +786,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
     }
 
-    /**
-     * Une fois la Matrix selectionnée en zone1, la zone entre en mode opération
+    /*
+      Once the Matrix has been selected in zone 1, the zone enters operation mode
      */
     private void operationZone1() {
         resetMatrixZone1();
@@ -831,8 +820,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         multiplication.setEnabled(false);
     }
 
-    /**
-     * Une fois la Matrix selectionnée en zone2, la zone entre en mode opération
+    /*
+    Once the Matrix has been selected in zone 2, the zone enters operation mode
      */
     private void operationZone2() {
         resetMatrixZone2();
@@ -864,7 +853,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         multiplication.setEnabled(false);
     }
 
-    /**
+    /*
      * Mode d'édition de la zone1, permet d'effectuer des modifications sur la
      * Matrix en zone1
      */
