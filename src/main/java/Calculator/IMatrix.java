@@ -1,189 +1,145 @@
 package Calculator;
 
 
-/**
- * Interface offrant des methodes pour la manipulation simple de Matrices dont
- * les elements sont des nombres reels.
- *
- * @author Melanie lord
- * @version janvier 2015 (TP1 INF2120 H15)
+/*
+ Interface offering methods for the simple manipulation of Matrices whose elements are real numbers.
  */
 public interface IMatrix {
 
-    /**
-     * Retourne le nombre de lines de cette Matrix.
-     *
-     * @return le nombre de lines de cette Matrix.
+    /*
+     * Returns the number of lines of this Matrix.
+     * @return the number of lines of this Matrix.
      */
     int getNumLines();
 
     /**
-     * Retourne le nombre de columns de cette Matrix.
-     *
-     * @return le nombre de columns de cette Matrix.
+     * Returns the number of columns of this Matrix.
+     * @return the number of columns of this Matrix.
      */
     int getNumColumns();
 
-    /**
-     * Retourne l'element de la Matrix a la position noLine, noCol.
-     *
-     * @param noLine le numero de la line dans cette Matrix.
-     * @param noCol le numero de la column dans cette Matrix.
-     * @return l'element de la Matrix a la position noLine, noCol.
-     * @throws MatrixException si : noLine ou noCol n'est pas un indice valide
-     * dans cette Matrix.
+    /*
+     * Returns the Matrix element to position noLine, noCol.
+     * @param noLine the number of the line in this Matrix.
+     * @param noCol the number of the column in this Matrix.
+     * @return the element of the Matrix to position noLine, noCol.
+     * @throws MatrixException if: noLine or noCol is not a valid index in this Matrix.
      */
     double getElement(int noLine, int noCol);
 
-    /**
-     * Modifie l'element a la position noLine, noCol par l'element passe en
-     * parametre.
-     *
-     * @param noLine le numero de la line dans cette Matrix.
-     * @param noCol le numero de la column dans cette Matrix.
-     * @param element le newel element a inserer a la position noLine, noCol
-     * dans cette Matrix.
-     * @throws MatrixException si noLine ou noCol n'est pas un indice valide
-     * dans cette Matrix.
+    /*
+     * Modifies the element to position noLine, noCol by the element passed in parameter.
+     * @param noLine the number of the line in this Matrix.
+     * @param noCol the number of the column in this Matrix.
+     * @param element the newel element to insert at position noLine, noCol in this Matrix.
+     * @throws MatrixException if noLine or noCol is not a valid index in this Matrix.
      */
     void setElement(int noLine, int noCol, double element);
 
-    /**
-     * Retourne la line de cette Matrix specifiee par noLine.
-     *
-     * @param noLine le numero de la line a retourner.
-     * @return la line de cette Matrix specifiee par noLine.
-     * @throws MatrixException si noLine n'est pas une line valide dans cette
-     * Matrix.
+    /*
+     * Returns the line of this Matrix specified by noLine.
+     * @param noLine the number of the line to return.
+     * @return the line of this Matrix specified by noLine.
+     * @throws MatrixException if noLine is not a valid line in this Matrix.
      */
-    public double[] getLine(int noLine);
+    double[] getLine(int noLine);
 
-    /**
-     * Retourne la column de cette Matrix specifiee par noCol.
-     *
-     * @param noCol le numero de la column a retourner.
-     * @return la column de cette Matrix specifiee par noCol.
-     * @throws MatrixException si noCol n'est pas une column valide dans cette
-     * Matrix.
+    /*
+     * Returns the column of this Matrix specified by noCol.
+     * @param noCol the number of the column to return.
+     * @return the column of this Matrix specified by noCol.
+     * @throws MatrixException if noCol is not a valid column in this Matrix.
      */
     double[] getColumn(int noCol);
 
-    /**
-     * Remplace la line specifiee par noLine de cette Matrix par la line donnee
-     * en parametre.
-     *
-     * @param noLine le numero de la line a replace.
-     * @param line la newelle line
-     * @throws Matrix Exception si : - noLine n'est pas une line valide dans
-     * cette Matrix. - line est null ou ne contient pas exactement
-     * getNumColumns() values.
+    /*
+     * Replaces the line specified by noLine of this Matrix by the line given in parameter.
+     * @param noLine the number of the line to replace.
+     * @param line the new line
+     * @throws Matrix Exception if: - noLine is not a valid line in this Matrix. - line is null or does not exactly
+     * contain getNumColumns () values.
      */
     void replaceLine(int noLine, double[] line);
 
-    /**
-     * Remplace la column specifiee par noCol de cette Matrix par la column
-     * donnee en parametre.
-     *
-     * @param noCol le numero de la column a replace.
-     * @param column la newelle column
-     * @throws MatrixException si : - noCol n'est pas une column valide dans
-     * cette Matrix. - column est null ou ne contient pas exactement
-     * getNumLines() values.
+    /*
+     * Replace the column specified by noCol of this Matrix by the column given in parameter.
+     * @param noCol the number of the column to replace.
+     * @param column the new column
+     * @throws MatrixException if: - noCol is not a valid column in this Matrix. - column is null or does not exactly
+     * contain getNumLines () values.
      */
     void replaceColumn(int noCol, double[] column);
 
-    /**
-     * Ajoute a cette Matrix la line donnee au noLine donne. Apres cet add, la
-     * Matrix contient une line de plus et la newelle line se trouve a l'indice
-     * noLine (le numero des lines suivantes aura augmente de 1).
-     *
-     * @param noLine l'indice de la newelle line apres l'add.
-     * @param line la line a add dans cette Matrix, a l'indice noLine.
-     * @throws MatrixException si : - noLine n'est pas entre 0 et getNumLines()
-     * inclusivement - line est null ou ne contient pas exactement
-     * getNumColumns() values.
+    /*
+     * Add to this Matrix the line given to the given noLine. After this add, the Matrix contains one more line and
+     * the new line is at the index noLine (the number of the following lines will have increased by 1).
+     * @param noLine the index of the new line after the add.
+     * @param line the line to add in this Matrix, at the index noLine.
+     * @throws MatrixException if: - noLine is not between 0 and getNumLines () inclusive - line is null or does not
+     * exactly contain getNumColumns () values.
      */
     void addLine(int noLine, double[] line);
 
-    /**
-     * Ajoute a cette Matrix la column donnee au noCol donne. Apres cet add,
-     * la Matrix contient une column de plus et la newelle column se trouve a
-     * l'indice noCol (le numero des columns suivantes aura augmente de 1).
-     *
-     * @param noCol l'indice de la newelle column apres l'add.
-     * @param column la column a add.
-     * @throws MatrixException si : - noCol n'est pas entre 0 et getNumColumns()
-     * inclusivement. - column est null ou ne contient pas exactement
-     * getNumLines() values.
+    /*
+     * Add to this Matrix the column given to the given noCol. After this add, the Matrix contains one more column and
+     * the new column is at the index noCol (the number of the following columns will have increased by 1).
+     * @param noCol the index of the new column after the add.
+     * @param column the column has add.
+     * @throws MatrixException if: - noCol is not between 0 and getNumColumns () inclusive. - column is null or does
+     * not exactly contain getNumLines () values.
      */
     void addColumn(int noCol, double[] column);
 
-    /**
-     * Supprime la line de cette Matrix correspondant au noLine donne. Apres
-     * l'appel de cette methode, cette Matrix contient une line de moins. Note :
-     * on ne peut pas delete une line dans une Matrix qui ne contient qu'une
-     * seule line.
-     *
-     * @param noLine le numero de la line a delete.
-     * @return la line supprimee.
-     * @throws MatrixException si : - noLine n'est pas une line valide dans
-     * cette Matrix ou - si cette Matrix ne contient qu'une seule line avant la
-     * suppression.
+    /*
+     * Delete the line of this Matrix corresponding to the given noLine. After calling this method, this Matrix contains
+     * one line less. Note: you cannot delete a line in a Matrix which contains only one line.
+     * @param noLine the number of the line to delete.
+     * @return the deleted line.
+     * @throws MatrixException if: - noLine is not a valid line in this Matrix or - if this Matrix contains only one
+     * line before deletion.
      */
     double[] deleteLine(int noLine);
 
-    /**
-     * Supprime la column de cette Matrix correspondant au noCol donne. Apres
-     * l'appel de cette methode, cette Matrix contient une column de moins.
-     * Note : on ne peut pas delete une column dans une Matrix qui ne contient
-     * qu'une seule column.
-     *
-     * @param noCol le numero de la column a delete.
-     * @return la column supprimee.
-     * @throws MatrixException si : - noCol n'est pas une column valide dans
-     * cette Matrix - si cette Matrix ne contient qu'une seule column avant la
-     * suppression.
+    /*
+     * Remove the column from this Matrix corresponding to the given noCol. After calling this method, this Matrix
+     * contains one column less.
+     * Note: you cannot delete a column in a Matrix which contains only one column.
+     * @param noCol the number of the column to delete.
+     * @return the deleted column.
+     * @throws MatrixException if: - noCol is not a valid column in this Matrix - if this Matrix contains only one
+     * column before deletion.
      */
     double[] deleteColumn(int noCol);
 
-    /**
-     * Effectue la sum de cette Matrix avec otherMatrix donnee en parametre.
-     *
-     * @param otherMatrix la Matrix a additionner avec cette Matrix.
-     * @return la Matrix resultante de la sum de cette Matrix avec
-     * otherMatrix.
-     * @throws MatrixException si otherMatrix est null ou n'est pas de meme
-     * dimension que cette Matrix(meme nombre de lines et meme nombre de
-     * columns).
+    /*
+     * Performs the sum of this Matrix with otherMatrix given as a parameter.
+     * @param otherMatrix the Matrix to be added with this Matrix.
+     * @return the Matrix resulting from the sum of this Matrix with otherMatrix.
+     * @throws MatrixException if otherMatrix is null or is not of the same dimension as this Matrix(Same Rows & Columns)
      */
     IMatrix sum(IMatrix otherMatrix);
 
-    /**
-     * Calcul le product de cette Matrix par la value donnee.
+    /*
+     * Calculate the product of this Matrix by the given value.
      *
-     * @param value la value de multiplication de cette Matrix.
-     * @return la Matrix resultante du product de cette Matrix par la value
-     * donnee.
+     * @param values the multiplication value of this Matrix.
+     * @return the Matrix resulting from the product of this Matrix by the value given.
      */
     IMatrix product(double value);
 
-    /**
-     * Calcule le product de cette Matrix (A) par otherMatrix (B) = A X B.
-     *
-     * @param otherMatrix la Matrix a multiplier avec cette Matrix.
-     * @return la Matrix resultante du product de cette Matrix par otherMatrix.
-     * La dimension de la Matrix resultante sera this.getNumLines() X
-     * otherMatrix.getNumColumns().
-     * @throws MatrixException si : - otherMatrix est null - le nombre de
-     * columns de cette Matrix n'est pas egal au nombre de lines de
-     * otherMatrix.
+    /*
+     * Calculate the product of this Matrix (A) by otherMatrix (B) = A X B.
+     * @param otherMatrix the Matrix to multiply with this Matrix.
+     * @return the Matrix resulting from the product of this Matrix by otherMatrix.
+     * The dimension of the resulting Matrix will be this.getNumLines () X otherMatrix.getNumColumns ().
+     * @throws MatrixException if: - otherMatrix is null - the number of columns of this Matrix is not equal to the
+     * number of lines of otherMatrix.
      */
     IMatrix product(IMatrix otherMatrix);
 
-    /**
-     * Construit la transpose de cette Matrix.
-     *
-     * @return la transpose de cette Matrix.
+    /*
+     * Builds the transpose of this Matrix.
+     * @return the transpose of this Matrix.
      */
     IMatrix transpose();
 
