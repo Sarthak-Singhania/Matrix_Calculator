@@ -253,9 +253,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
         } else if (event == deleteZone2) {
             deleteMatrixZone2();
         } else if (event == newMatrixButtonZone1) {
-            creerNewMatrixZone1();
+            creNewMatrixZone1();
         } else if (event == newMatrixButtonZone2) {
-            creerNewMatrixZone2();
+            creNewMatrixZone2();
         } else if (event == buttonsTabZone1[2]) {
             addLineZone1();
         } else if (event == buttonsTabZone2[2]) {
@@ -392,9 +392,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * @param height Panel height
      * @return a JPanel according to the sizes and the position in parameter.
      */
-    private JPanel zone(int x, int y, int width, int hight) {
+    private JPanel zone(int x, int y, int width, int height) {
         JPanel panel = new JPanel(null);
-        panel.setSize(width, hight);
+        panel.setSize(width, height);
         panel.setLocation(x, y);
         return panel;
     }
@@ -409,9 +409,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
      * @param height Button height
      * @return A JButton with the given parameters.
      */
-    private JButton button(String name, int x, int y, int width, int hight) {
+    private JButton button(String name, int x, int y, int width, int height) {
         JButton button = new JButton(name);
-        button.setSize(width, hight);
+        button.setSize(width, height);
         button.setLocation(x, y);
         return button;
     }
@@ -654,11 +654,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
             resetMatrixZone1();
         }
         int width = 55 * nColZone1;
-        int hight = 30 * nLinesZone1;
+        int height = 30 * nLinesZone1;
         int positionX = 5 + ((440 - width) / 2);
-        int positionY = 50 + ((240 - hight) / 2);
+        int positionY = 50 + ((240 - height) / 2);
         panelMatrixZone1 = new JPanel(new GridLayout(nLinesZone1, nColZone1, 5, 5));
-        panelMatrixZone1.setBounds(positionX, positionY, width, hight);
+        panelMatrixZone1.setBounds(positionX, positionY, width, height);
         panelMatrixZone1.setVisible(true);
         fieldsMatrixZone1(nColZone1, nLinesZone1);
         panelMatrixZone1.repaint();
@@ -694,11 +694,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
             resetMatrixZone2();
         }
         int width = 55 * nColZone2;
-        int hight = 30 * nLinesZone2;
+        int height = 30 * nLinesZone2;
         int positionX = 5 + ((440 - width) / 2);
-        int positionY = 50 + ((240 - hight) / 2);
+        int positionY = 50 + ((240 - height) / 2);
         panelMatrixZone2 = new JPanel(new GridLayout(nLinesZone2, nColZone2, 5, 5));
-        panelMatrixZone2.setBounds(positionX, positionY, width, hight);
+        panelMatrixZone2.setBounds(positionX, positionY, width, height);
         fieldsMatrixZone2(nColZone2, nLinesZone2);
         panelMatrixZone2.revalidate();
         zone2.revalidate();
@@ -1171,7 +1171,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
 
     }
 
-    private void creerNewMatrixZone1() {
+    private void creNewMatrixZone1() {
 
         nLinesZone1 = (int) newMatrixBoxLinesZone1.getSelectedItem();
         nColZone1 = (int) newMatrixBoxColumnsZone1.getSelectedItem();
@@ -1188,7 +1188,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         buttonsTabZone1[1].setEnabled(true);
     }
 
-    private void creerNewMatrixZone2() {
+    private void creNewMatrixZone2() {
 
         nLinesZone2 = (int) newMatrixBoxLinesZone2.getSelectedItem();
         nColZone2 = (int) newMatrixBoxColumnsZone2.getSelectedItem();
@@ -1559,7 +1559,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         nameZone4 = new JTextArea(nameMatrixZone4);
         nameZone4.setBounds(80, 20, 60, 25);
         nameZone4.setEditable(false);
-        Font font = new Font("Courrier New", Font.BOLD, 12);
+        Font font = new Font("Courier New", Font.BOLD, 12);
         nameZone4.setFont(font);
         MatrixAffZone4 = new JTextArea(MatrixZone4.toString());
 
