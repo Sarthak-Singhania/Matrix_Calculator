@@ -1,10 +1,8 @@
 package Calculator;
 
 
-/**
- * Classe d'Exception utilisee par la classe Matrix.
- * @author melanie lord
- * @version janvier 2015
+/*
+  Exception class used by the Matrix class.
  */
 public class MatrixException extends RuntimeException {
    
