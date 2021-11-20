@@ -4,16 +4,11 @@ package Calculator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-/**
- *
- * @author Thomas Castonguay-Gagnon
- * @codePerm CAST10059303
- */
 public class Matrix implements IMatrix {
 
     private int numColumns;
     private int numLines;
-    private ArrayList<Double> elements;
+    private final ArrayList<Double> elements;
 
     public Matrix(int numLines, int numColumns, double value) throws MatrixException {
         if (numLines < 1 || numColumns < 1) {
@@ -22,7 +17,7 @@ public class Matrix implements IMatrix {
             this.numLines = numLines;
             this.numColumns = numColumns;
             int max = this.numColumns * this.numLines;
-            this.elements = new ArrayList<Double>(max);
+            this.elements = new ArrayList<>(max);
             for (int i = 0; i < max; i++) {
                 elements.add(value);
             }
@@ -31,13 +26,13 @@ public class Matrix implements IMatrix {
     }
 
     public Matrix(int numLines, int numColumns, double[] elements) throws MatrixException {
-        if (numLines < 1 || numLines < 1 || elements == null || elements.length != (numLines * numColumns)) {
+        if (numLines < 1 || elements == null || elements.length != (numLines * numColumns)) {
             throw new MatrixException();
         } else {
             this.numLines = numLines;
             this.numColumns = numColumns;
             int max = this.numColumns * this.numLines;
-            this.elements = new ArrayList<Double>(max);
+            this.elements = new ArrayList<>(max);
             for (int i = 0; i < (numLines * numColumns); i++) {
                 this.elements.add(elements[i]);
             }
@@ -48,50 +43,43 @@ public class Matrix implements IMatrix {
         this.numColumns = otherMatrix.numColumns;
         this.numLines = otherMatrix.numLines;
         int max = numColumns * numLines;
-        this.elements = new ArrayList<Double>(max);
+        this.elements = new ArrayList<>(max);
         for (int i = 0; i < max; i++) {
             this.elements.add(otherMatrix.elements.get(i));
         }
     }
 
-    /**
-     * Retourne une representation sous forme de chaine de caracteres de cette
-     * Matrix. Exemple de la representation d'une Matrix de 3 lines par 2
-     * columns :
-     *
-     * [ 9,0 5,0 ] [ 6,0 7,0 ] [ 7,0 4,0 ]
-     *
-     * NOTE : Cette methode fonctionne pour les Matrices dont tous les elements
-     * sous forme de chaine de caracteres ne contiennent pas plus de 7
-     * caracteres. Les elements sont arrondis a une decimale.
-     *
-     * @return une representation sous forme de chaine de caracteres de cette
-     * Matrix.
+    /*
+     * Returns a string representation of this
+     * Matrix. Example of the representation of a Matrix of 3 lines by 2
+     * columns:
+     * [9.0 5.0] [6.0 7.0] [7.0 4.0]
+     * NOTE: This method works for Matrices with all elements
+     * as a string contain no more than 7 characters. Items are rounded to one decimal place.
+     * @return a string representation of this Matrix.
      */
     @Override
     public String toString() {
         final DecimalFormat DEC_FORMAT = new DecimalFormat("0.0");
         final int ESP = 8;
         int num;
-        String sTmp;
-        String s = "[";
+        StringBuilder sTmp;
+        StringBuilder s = new StringBuilder("[");
         for (int i = 0; i < (numLines * numColumns); i++) {
-            //etendre i sur ESP columns
-            sTmp = "";
+            //extend i on ESP columns
+            sTmp = new StringBuilder();
             num = ESP - DEC_FORMAT.format(elements.get(i)).length();
-            for (int j = 0; j < num; j++) {
-                sTmp = sTmp + " ";
-            }
-            sTmp = sTmp + DEC_FORMAT.format(elements.get(i));
+            sTmp.append(" ".repeat(Math.max(0, num)));
+            sTmp.append(DEC_FORMAT.format(elements.get(i)));
 
             if (i != 0 && i % numColumns == 0) {
-                s = s + "  ]\n[" + sTmp;
+                s.append("  ]\n[").append(sTmp);
             } else {
-                s = s + sTmp;
+                s.append(sTmp);
             }
         }
-        s = s + "  ]";
-        return s;
+        s.append("  ]");
+        return s.toString();
     }
 
     @Override
@@ -104,7 +92,7 @@ public class Matrix implements IMatrix {
                 int max = input.numLines * input.numColumns;
                 boolean exit = false;
                 while (i < max && !exit) {
-                    if (this.elements.get(i) == input.elements.get(i)) {
+                    if (this.elements.get(i).equals(input.elements.get(i))) {
                         i++;
                     } else {
                         exit = true;
@@ -120,32 +108,28 @@ public class Matrix implements IMatrix {
         return output;
     }
 
-    /**
-     * Retourne le nombre de lines de cette Matrix.
-     *
-     * @return le nombre de lines de cette Matrix.
+    /*
+     * Returns the number of lines of this Matrix.
+     * @return the number of lines of this Matrix.
      */
     public int getNumLines() {
         return numLines;
     }
 
-    /**
-     * Retourne le nombre de columns de cette Matrix.
-     *
-     * @return le nombre de columns de cette Matrix.
+    /*
+     * Returns the number of columns of this Matrix.
+     * @return the number of columns of this Matrix.
      */
     public int getNumColumns() {
         return numColumns;
     }
 
-    /**
-     * Retourne l'element de la Matrix a la position noLine, noCol.
-     *
-     * @param noLine le numero de la line dans cette Matrix.
-     * @param noCol le numero de la column dans cette Matrix.
-     * @return l'element de la Matrix a la position noLine, noCol.
-     * @throws MatrixException si : noLine ou noCol n'est pas un indice valide
-     * dans cette Matrix.
+    /*
+     * Returns the Matrix element to position noLine, noCol.
+     * @param noLine the number of the line in this Matrix.
+     * @param noCol the number of the column in this Matrix.
+     * @return the element of the Matrix to position noLine, noCol.
+     * @throws MatrixException if: noLine or noCol is not a valid index in this Matrix.
      */
     public double getElement(int noLine, int noCol) throws MatrixException {
         if (noCol < 0 || noCol >= numColumns || noLine < 0 || noLine >= numLines) {
@@ -156,16 +140,12 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Modifie l'element a la position noLine, noCol par l'element passe en
-     * parametre.
-     *
-     * @param noLine le numero de la line dans cette Matrix.
-     * @param noCol le numero de la column dans cette Matrix.
-     * @param element le newel element a inserer a la position noLine, noCol
-     * dans cette Matrix.
-     * @throws MatrixException si noLine ou noCol n'est pas un indice valide
-     * dans cette Matrix.
+    /*
+     * Modifies the element to position noLine, noCol by the element passed in parameter.
+     * @param noLine the number of the line in this Matrix.
+     * @param noCol the number of the column in this Matrix.
+     * @param element the newel element to insert at position noLine, noCol in this Matrix.
+     * @throws MatrixException if noLine or noCol is not a valid index in this Matrix.
      */
     public void setElement(int noLine, int noCol, double element) throws MatrixException {
         if (noCol < 0 || noCol >= numColumns || noLine < 0 || noLine >= numLines) {
@@ -176,13 +156,11 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Retourne la line de cette Matrix specifiee par noLine.
-     *
-     * @param noLine le numero de la line a retourner.
-     * @return la line de cette Matrix specifiee par noLine.
-     * @throws MatrixException si noLine n'est pas une line valide dans cette
-     * Matrix.
+    /*
+     * Returns the line of this Matrix specified by noLine.
+     * @param noLine the number of the line to return.
+     * @return the line of this Matrix specified by noLine.
+     * @throws MatrixException if noLine is not a valid line in this Matrix.
      */
     public double[] getLine(int noLine) {
         if (noLine < 0 || noLine >= numLines) {
@@ -198,13 +176,11 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Retourne la column de cette Matrix specifiee par noCol.
-     *
-     * @param noCol le numero de la column a retourner.
-     * @return la column de cette Matrix specifiee par noCol.
-     * @throws MatrixException si noCol n'est pas une column valide dans cette
-     * Matrix.
+    /*
+     * Returns the column of this Matrix specified by noCol.
+     * @param noCol the number of the column to return.
+     * @return the column of this Matrix specified by noCol.
+     * @throws MatrixException if noCol is not a valid column in this Matrix.
      */
     public double[] getColumn(int noCol) {
         if (noCol >= numColumns || noCol < 0) {
@@ -220,15 +196,12 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Remplace la line specifiee par noLine de cette Matrix par la line donnee
-     * en parametre.
-     *
-     * @param noLine le numero de la line a replace.
-     * @param line la newelle line
-     * @throws Matrix Exception si : - noLine n'est pas une line valide dans
-     * cette Matrix. - line est null ou ne contient pas exactement
-     * getNumColumns() values.
+    /*
+     * Replaces the line specified by noLine of this Matrix by the line given in parameter.
+     * @param noLine the number of the line to replace.
+     * @param line the new line
+     * @throws Matrix Exception if: - noLine is not a valid line in
+     * this Matrix. - line is null or does not exactly contain getNumColumns () values.
      */
     @Override
     public void replaceLine(int noLine, double[] line) {
@@ -243,15 +216,12 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Remplace la column specifiee par noCol de cette Matrix par la column
-     * donnee en parametre.
-     *
-     * @param noCol le numero de la column a replace.
-     * @param column la newelle column
-     * @throws MatrixException si : - noCol n'est pas une column valide dans
-     * cette Matrix. - column est null ou ne contient pas exactement
-     * getNumLines() values.
+    /*
+     * Replace the column specified by noCol of this Matrix by the column given in parameter.
+     * @param noCol the number of the column to replace.
+     * @param column the new column
+     * @throws MatrixException if: - noCol is not a valid column in
+     * this Matrix. - column is null or does not exactly contain getNumLines () values.
      */
     @Override
     public void replaceColumn(int noCol, double[] column) {
@@ -266,16 +236,14 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Ajoute a cette Matrix la line donnee au noLine donne. Apres cet add, la
-     * Matrix contient une line de plus et la newelle line se trouve a l'indice
-     * noLine (le numero des lines suivantes aura augmente de 1).
-     *
-     * @param noLine l'indice de la newelle line apres l'add.
-     * @param line la line a add dans cette Matrix, a l'indice noLine.
-     * @throws MatrixException si : - noLine n'est pas entre 0 et getNumLines()
-     * inclusivement - line est null ou ne contient pas exactement
-     * getNumColumns() values.
+    /*
+     * Add to this Matrix the line given to the given noLine. After this add, the
+     * Matrix contains one more line and the new line is at the index
+     * noLine (the number of the following lines will have increased by 1).
+     * @param noLine the index of the new line after the add.
+     * @param line the line to add in this Matrix, at the index noLine.
+     * @throws MatrixException if: - noLine is not between 0 and getNumLines ()
+     * inclusive - line is null or does not exactly contain getNumColumns () values.
      */
     @Override
     public void addLine(int noLine, double[] line) {
@@ -291,16 +259,14 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Ajoute a cette Matrix la column donnee au noCol donne. Apres cet add,
-     * la Matrix contient une column de plus et la newelle column se trouve a
-     * l'indice noCol (le numero des columns suivantes aura augmente de 1).
-     *
-     * @param noCol l'indice de la newelle column apres l'add.
-     * @param column la column a add.
-     * @throws MatrixException si : - noCol n'est pas entre 0 et getNumColumns()
-     * inclusivement. - column est null ou ne contient pas exactement
-     * getNumLines() values.
+    /*
+     * Add to this Matrix the column given to the given noCol. After this add,
+     * the Matrix contains one more column and the new column is at
+     * the noCol index (the number of the following columns will have increased by 1).
+     * @param noCol the index of the new column after the add.
+     * @param column the column has add.
+     * @throws MatrixException if: - noCol is not between 0 and getNumColumns ()
+     * inclusive. - column is null or does not exactly contain getNumLines () values.
      */
     @Override
     public void addColumn(int noCol, double[] column) {
@@ -316,17 +282,14 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Supprime la line de cette Matrix correspondant au noLine donne. Apres
-     * l'appel de cette methode, cette Matrix contient une line de moins. Note :
-     * on ne peut pas delete une line dans une Matrix qui ne contient qu'une
-     * seule line.
-     *
-     * @param noLine le numero de la line a delete.
-     * @return la line supprimee.
-     * @throws MatrixException si : - noLine n'est pas une line valide dans
-     * cette Matrix ou - si cette Matrix ne contient qu'une seule line avant la
-     * suppression.
+    /*
+     * Delete the line of this Matrix corresponding to the given noLine. After
+     * calling this method, this Matrix contains one line less. Note:
+     * you cannot delete a line in a Matrix which contains only one line.
+     * @param noLine the number of the line to delete.
+     * @return the deleted line.
+     * @throws MatrixException if: - noLine is not a valid line in
+     * this Matrix or - if this Matrix contains only one line before deletion.
      */
     public double[] deleteLine(int noLine) throws MatrixException {
         if (numLines == 1 || noLine < 0 || noLine >= numLines) {
@@ -343,17 +306,14 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Supprime la column de cette Matrix correspondant au noCol donne. Apres
-     * l'appel de cette methode, cette Matrix contient une column de moins.
-     * Note : on ne peut pas delete une column dans une Matrix qui ne contient
-     * qu'une seule column.
-     *
-     * @param noCol le numero de la column a delete.
-     * @return la column supprimee.
-     * @throws MatrixException si : - noCol n'est pas une column valide dans
-     * cette Matrix - si cette Matrix ne contient qu'une seule column avant la
-     * suppression.
+    /*
+     * Remove the column from this Matrix corresponding to the given noCol. After
+     * calling this method, this Matrix contains one column less.
+     * Note: you cannot delete a column in a Matrix which contains only one column.
+     * @param noCol the number of the column to delete.
+     * @return the deleted column.
+     * @throws MatrixException if: - noCol is not a valid column in
+     * this Matrix - if this Matrix contains only one column before deletion.
      */
     public double[] deleteColumn(int noCol) throws MatrixException {
         if (numColumns == 1 || noCol >= numColumns || noCol < 0) {
@@ -370,15 +330,12 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Effectue la sum de cette Matrix avec otherMatrix donnee en parametre.
-     *
-     * @param otherMatrix la Matrix a additionner avec cette Matrix.
-     * @return la Matrix resultante de la sum de cette Matrix avec
-     * otherMatrix.
-     * @throws MatrixException si otherMatrix est null ou n'est pas de meme
-     * dimension que cette Matrix(meme nombre de lines et meme nombre de
-     * columns).
+    /*
+     * Performs the sum of this Matrix with otherMatrix given as a parameter.
+     * @param otherMatrix the Matrix to be added with this Matrix.
+     * @return the Matrix resulting from the sum of this Matrix with otherMatrix.
+     * @throws MatrixException if otherMatrix is null or not the same
+     * dimension as this Matrix (same number of Rows & Columns).
      */
     @Override
     public IMatrix sum(IMatrix otherMatrix) throws MatrixException {
@@ -398,12 +355,10 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Calcul le product de cette Matrix par la value donnee.
-     *
-     * @param value la value de multiplication de cette Matrix.
-     * @return la Matrix resultante du product de cette Matrix par la value
-     * donnee.
+    /*
+     * Calculate the product of this Matrix by the given value.
+     * @param values the multiplication value of this Matrix.
+     * @return the Matrix resulting from the product of this Matrix by the given value.
      */
     @Override
     public IMatrix product(double value) {
@@ -418,15 +373,14 @@ public class Matrix implements IMatrix {
         return Matrix;
     }
 
-    /**
-     * Calcule le product de cette Matrix (A) par otherMatrix (B) = A X B.
-     *
-     * @param otherMatrix la Matrix a multiplier avec cette Matrix.
-     * @return la Matrix resultante du product de cette Matrix par otherMatrix.
-     * La dimension de la Matrix resultante sera this.getNumLines() X
-     * otherMatrix.getNumColumns().
-     * @throws MatrixException si : - otherMatrix est null - le nombre de
-     * columns de cette Matrix n'est pas egal au nombre de lines de
+    /*
+     * Calculate the product of this Matrix (A) by otherMatrix (B) = A X B.
+     * @param otherMatrix the Matrix to multiply with this Matrix.
+     * @return the Matrix resulting from the product of this Matrix by otherMatrix.
+     * The dimension of the resulting Matrix will be this.getNumLines () X
+     * otherMatrix.getNumColumns ().
+     * @throws MatrixException if: - otherMatrix is null - the number of
+     * columns of this Matrix is not equal to the number of lines of
      * otherMatrix.
      */
     @Override
@@ -444,10 +398,9 @@ public class Matrix implements IMatrix {
         }
     }
 
-    /**
-     * Construit la transpose de cette Matrix.
-     *
-     * @return la transpose de cette Matrix.
+    /*
+     * Builds the transpose of this Matrix.
+     * @return the transpose of this Matrix.
      */
     @Override
     public IMatrix transpose() {
