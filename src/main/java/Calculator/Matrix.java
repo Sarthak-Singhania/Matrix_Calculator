@@ -356,6 +356,30 @@ public class Matrix implements IMatrix {
     }
 
     /*
+     * Performs the subtraction of this Matrix with otherMatrix given as a parameter.
+     * @param otherMatrix the Matrix to be subtracted with this Matrix.
+     * @return the Matrix resulting from the difference of this Matrix with otherMatrix.
+     * @throws MatrixException if otherMatrix is null or not the same
+     * dimension as this Matrix (same number of Rows & Columns).
+     */
+    @Override
+    public IMatrix diff(IMatrix otherMatrix) throws MatrixException {
+        if (otherMatrix == null || otherMatrix.getNumLines() != numLines || otherMatrix.getNumColumns() != numColumns) {
+            System.out.println("ICI");
+            throw new MatrixException();
+        } else {
+            IMatrix Matrix = new Matrix(this);
+            double diff;
+            for (int i = 0; i < Matrix.getNumLines(); i++) {
+                for (int j = 0; j < Matrix.getNumColumns(); j++) {
+                    diff = Matrix.getElement(i, j) - otherMatrix.getElement(i, j);
+                    Matrix.setElement(i, j, diff);
+                }
+            }
+            return Matrix;
+        }
+    }
+    /*
      * Calculate the product of this Matrix by the given value.
      * @param values the multiplication value of this Matrix.
      * @return the Matrix resulting from the product of this Matrix by the given value.

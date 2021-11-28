@@ -120,6 +120,14 @@ public interface IMatrix {
     IMatrix sum(IMatrix otherMatrix);
 
     /*
+     * Performs the subtraction of this Matrix with otherMatrix given as a parameter.
+     * @param otherMatrix the Matrix to be subtracted with this Matrix.
+     * @return the Matrix resulting from the difference of this Matrix with otherMatrix.
+     * @throws MatrixException if otherMatrix is null or is not of the same dimension as this Matrix(Same Rows & Columns)
+     */
+    IMatrix diff(IMatrix otherMatrix);
+
+    /*
      * Calculate the product of this Matrix by the given value.
      *
      * @param values the multiplication value of this Matrix.
