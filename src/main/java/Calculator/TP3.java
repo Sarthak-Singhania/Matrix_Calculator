@@ -91,6 +91,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JButton deleteZone2;
     // Add & Mul Buttons
     private JButton addition;
+    private JButton subtraction;
     private JButton multiplication;
     private JButton[] buttonsTabZone1;
     private JButton[] buttonsTabZone2;
@@ -183,7 +184,10 @@ public class TP3 extends WindowAdapter implements ActionListener {
         addition = button("+", 15, 130, 50, 25);
         addition.setEnabled(false);
         addition.addActionListener(this);
-        multiplication = button("X", 15, 180, 50, 25);
+        subtraction = button("-", 15, 180, 50, 25);
+        subtraction.setEnabled(false);
+        subtraction.addActionListener(this);
+        multiplication = button("X", 15, 230, 50, 25);
         multiplication.setEnabled(false);
         multiplication.addActionListener(this);
 
@@ -201,6 +205,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone2.add(panel2ButtonsZone2);
 
         zone3.add(addition);
+        zone3.add(subtraction);
         zone3.add(multiplication);
 
         initZone4();
@@ -282,11 +287,14 @@ public class TP3 extends WindowAdapter implements ActionListener {
             transposeZone2();
         } else if (event == addition) {
             addMatrix();
-        } else if (event == multiplication) {
+        } else if (event == subtraction) {
+            addMatrix();
+        }else if (event == multiplication) {
             multMatrix();
         } else if (event == saveZone4) {
             saveZone4();
         }
+
     }
 
     /*
@@ -1429,6 +1437,17 @@ public class TP3 extends WindowAdapter implements ActionListener {
             populateZone4();
         } catch (MatrixException e) {
             JOptionPane.showMessageDialog(null, "Matrices don't have the right format to add up", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void subMatrix() {
+        try {
+            nameMatrixZone4 = nameMatrixZone1 + " - " + nameMatrixZone2 + "  =  ";
+            MatrixZone4 = (Matrix) MatrixZone1.diff(MatrixZone2);
+            resetZone4();
+            populateZone4();
+        } catch (MatrixException e) {
+            JOptionPane.showMessageDialog(null, "Matrices don't have the right format to get difference", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
