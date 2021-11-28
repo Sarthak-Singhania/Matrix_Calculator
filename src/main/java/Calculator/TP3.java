@@ -181,13 +181,13 @@ public class TP3 extends WindowAdapter implements ActionListener {
         initSelectionZone2();
         initInstructionsZone1();
         initInstructionsZone2();
-        addition = button("+", 15, 130, 50, 25);
+        addition = button("+", 15, 110, 50, 25);
         addition.setEnabled(false);
         addition.addActionListener(this);
-        subtraction = button("-", 15, 180, 50, 25);
+        subtraction = button("-", 15, 160, 50, 25);
         subtraction.setEnabled(false);
         subtraction.addActionListener(this);
-        multiplication = button("X", 15, 230, 50, 25);
+        multiplication = button("X", 15, 210, 50, 25);
         multiplication.setEnabled(false);
         multiplication.addActionListener(this);
 
@@ -288,7 +288,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         } else if (event == addition) {
             addMatrix();
         } else if (event == subtraction) {
-            addMatrix();
+            subMatrix();
         }else if (event == multiplication) {
             multMatrix();
         } else if (event == saveZone4) {
@@ -813,6 +813,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         opZone1 = true;
         if (opZone1 && opZone2) {
             addition.setEnabled(true);
+            subtraction.setEnabled(true);
             multiplication.setEnabled(true);
         }
     }
@@ -825,6 +826,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         buttonsTabZone1[6].setEnabled(false);
         opZone1 = false;
         addition.setEnabled(false);
+        subtraction.setEnabled(false);
         multiplication.setEnabled(false);
     }
 
@@ -846,6 +848,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         opZone2 = true;
         if (opZone1 && opZone2) {
             addition.setEnabled(true);
+            subtraction.setEnabled(true);
             multiplication.setEnabled(true);
         }
     }
@@ -858,6 +861,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         buttonsTabZone2[6].setEnabled(false);
         opZone2 = false;
         addition.setEnabled(false);
+        subtraction.setEnabled(false);
         multiplication.setEnabled(false);
     }
 
