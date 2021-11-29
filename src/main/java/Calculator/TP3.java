@@ -158,6 +158,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         window = new JFrame(TITLE_WINDOW);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        Image icon=Toolkit.getDefaultToolkit().getImage("matrix.png");
+        window.setIconImage(icon);  
         window.setLayout(null);
         //Putting the Main Window in the Center of Screen
         window.setBounds(LARGE_SCREEN / 2 - LARGE_WINDOW / 2, HIGH_SCREEN / 2 - HIGH_WINDOW / 2, LARGE_WINDOW, HIGH_WINDOW);
